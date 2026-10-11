@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" width="800" height="550" role="img" aria-label="GoRealtors project image placeholder">
+  <rect width="800" height="550" fill="#eceef0"/>
+  <g opacity="0.35" transform="translate(368 230) scale(1.1)">
+    <path d="M4 26.5 L30 4 L50 21.4 L50 48 L36.5 48 L36.5 41 L44 41 L44 25 L30 12.8 L14.5 26.3 L14.5 41 L25 41 L25 48 L4 48 Z" fill="#8792a1"/>
+    <path d="M54.5 25.2 L60 30 L60 48 L54.5 48 Z" fill="#6abf4b"/>
+    <path d="M30 19.6 L41 31.5 L33.4 31.5 L33.4 41.5 L26.6 41.5 L26.6 31.5 L19 31.5 Z" fill="#6abf4b"/>
+  </g>
+  <text x="400" y="360" font-family="system-ui, sans-serif" font-size="15" font-weight="600" fill="#8792a1" text-anchor="middle" letter-spacing="2">IMAGE COMING SOON</text>
+</svg>
