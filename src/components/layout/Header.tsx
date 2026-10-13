@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
-  ArrowRight,
   ChevronDown,
   Mail,
   MapPin,
@@ -20,22 +19,21 @@ import {
   Youtube,
 } from "@/components/brand/SocialIcons";
 import { Logo } from "@/components/brand/Logo";
+import {
+  MegaMobile,
+  MegaPanel,
+  type HeaderNavItem,
+} from "./MegaMenu";
 import { LiveSearch, SearchTrigger } from "@/components/search/LiveSearch";
 import type { SearchItem } from "@/lib/search";
 import { SITE, WHATSAPP_LINK } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-export type MegaColumn = {
-  heading: string;
-  viewAll?: { label: string; href: string };
-  items: { label: string; href: string; note?: string }[];
-};
-
-export type HeaderNavItem = {
-  label: string;
-  href: string;
-  mega?: MegaColumn[];
-};
+export type {
+  HeaderNavItem,
+  MegaColumn,
+  NavChild,
+} from "./MegaMenu";
 
 export function Header({
   nav,
@@ -88,6 +86,8 @@ export function Header({
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setOpen(null), 140);
   };
+
+  const activeMega = open ? nav.find((n) => n.label === open) : undefined;
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -153,7 +153,7 @@ export function Header({
           scrolled ? "border-ink-200 shadow-card" : "border-transparent",
         )}
       >
-        <div className="shell flex h-16 items-center justify-between gap-6 lg:h-[4.5rem]">
+        <div className="shell relative flex h-16 items-center justify-between gap-6 lg:h-[4.5rem]">
           <Logo />
 
           <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
@@ -194,68 +194,26 @@ export function Header({
                     />
                   )}
 
-                  {item.mega && open === item.label && (
-                    <div
-                      className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3"
-                      onMouseEnter={() => enter(item.label)}
-                      onMouseLeave={leave}
-                    >
-                      <div
-                        className="reveal overflow-hidden rounded-md border border-ink-200 bg-white shadow-rise"
-                        style={{
-                          width: `min(${item.mega.length * 17 + 2}rem, 92vw)`,
-                        }}
-                      >
-                        <div
-                          className="grid gap-0"
-                          style={{
-                            gridTemplateColumns: `repeat(${item.mega.length}, minmax(0,1fr))`,
-                          }}
-                        >
-                          {item.mega.map((col) => (
-                            <div
-                              key={col.heading}
-                              className="border-r border-ink-100 p-5 last:border-r-0"
-                            >
-                              <p className="mb-3 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-ink-400">
-                                {col.heading}
-                              </p>
-                              <ul className="space-y-0.5">
-                                {col.items.map((sub) => (
-                                  <li key={sub.href + sub.label}>
-                                    <Link
-                                      href={sub.href}
-                                      className="group flex items-baseline justify-between gap-3 rounded-sm px-2 py-1.5 text-[0.8125rem] text-ink-700 transition-colors hover:bg-brand-50 hover:text-brand-800"
-                                    >
-                                      <span className="font-medium">{sub.label}</span>
-                                      {sub.note && (
-                                        <span className="shrink-0 text-[0.6875rem] font-semibold tabular-nums text-ink-400 group-hover:text-brand-600">
-                                          {sub.note}
-                                        </span>
-                                      )}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                              {col.viewAll && (
-                                <Link
-                                  href={col.viewAll.href}
-                                  className="mt-3 inline-flex items-center gap-1 border-t border-ink-100 pt-3 text-[0.75rem] font-bold text-brand-700 hover:underline"
-                                >
-                                  {col.viewAll.label}
-                                  <ArrowRight className="h-3 w-3" strokeWidth={2.6} />
-                                </Link>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
                 </div>
               );
             })}
           </nav>
+
+          {/* One panel for the whole bar, centred on the container. Anchoring
+              to the trigger pushed wide menus off-screen for left-hand items. */}
+          {activeMega?.mega && (
+            <div
+              className="absolute left-1/2 top-full z-50 hidden -translate-x-1/2 pt-3 lg:block"
+              onMouseEnter={() => enter(activeMega.label)}
+              onMouseLeave={leave}
+            >
+              <MegaPanel
+                columns={activeMega.mega}
+                width={activeMega.width}
+                onNavigate={() => setOpen(null)}
+              />
+            </div>
+          )}
 
           <div className="flex items-center gap-2">
             <SearchTrigger index={searchIndex} />
@@ -378,40 +336,8 @@ function MobileItem({ item }: { item: HeaderNavItem }) {
         </button>
       </div>
       {expanded && (
-        <div className="mb-2 ml-3 space-y-3 border-l border-ink-200 pl-3">
-          {item.mega.map((col) => (
-            <div key={col.heading}>
-              <p className="py-1 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-ink-400">
-                {col.heading}
-              </p>
-              <ul>
-                {col.items.map((sub) => (
-                  <li key={sub.href + sub.label}>
-                    <Link
-                      href={sub.href}
-                      className="flex items-baseline justify-between gap-2 rounded-sm px-2 py-1.5 text-[0.8125rem] text-ink-700 hover:bg-brand-50"
-                    >
-                      <span>{sub.label}</span>
-                      {sub.note && (
-                        <span className="text-[0.6875rem] tabular-nums text-ink-400">
-                          {sub.note}
-                        </span>
-                      )}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              {col.viewAll && (
-                <Link
-                  href={col.viewAll.href}
-                  className="mt-1 inline-flex items-center gap-1 px-2 text-[0.75rem] font-bold text-brand-700"
-                >
-                  {col.viewAll.label}
-                  <ArrowRight className="h-3 w-3" strokeWidth={2.6} />
-                </Link>
-              )}
-            </div>
-          ))}
+        <div className="mb-2 ml-3 border-l border-ink-200 pl-3">
+          <MegaMobile columns={item.mega} />
         </div>
       )}
     </div>
