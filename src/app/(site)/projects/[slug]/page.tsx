@@ -292,7 +292,13 @@ export default async function ProjectPage({
         <div className="grid gap-10 lg:grid-cols-[1fr_21rem] lg:gap-12">
           {/* ================= MAIN ================= */}
           <div className="min-w-0">
-            <ProjectGallery images={project.images} name={project.name} />
+            <ProjectGallery
+              images={project.images}
+              imageAlts={project.imageAlts}
+              name={project.name}
+              sector={project.sector}
+              city={project.city}
+            />
 
             {/* quick facts */}
             <dl className="mt-8 grid gap-px overflow-hidden rounded-md border border-ink-200 bg-ink-200 sm:grid-cols-2 lg:grid-cols-4">

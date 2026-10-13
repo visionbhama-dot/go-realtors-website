@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
+import { LiveSearch } from "@/components/search/LiveSearch";
+import type { SearchItem } from "@/lib/search";
 import { cn } from "@/lib/utils";
 
 const TABS = [
@@ -23,16 +25,17 @@ const BUDGETS = [
 export function HeroSearch({
   localities,
   propertyTypes,
+  searchIndex,
 }: {
   localities: { slug: string; name: string }[];
   propertyTypes: { slug: string; name: string }[];
+  searchIndex: SearchItem[];
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("residential");
   const [locality, setLocality] = useState("");
   const [ptype, setPtype] = useState("");
   const [budget, setBudget] = useState("0");
-  const [q, setQ] = useState("");
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -40,7 +43,6 @@ export function HeroSearch({
     if (tab !== "all") params.set("category", tab);
     if (locality) params.set("locality", locality);
     if (ptype) params.set("propertyType", ptype);
-    if (q.trim()) params.set("q", q.trim());
     const b = BUDGETS[Number(budget)]!;
     if (b.min) params.set("minPrice", b.min);
     if (b.max) params.set("maxPrice", b.max);
@@ -76,22 +78,10 @@ export function HeroSearch({
         className="rounded-b-sm rounded-tr-sm bg-white p-3 shadow-rise sm:p-4"
       >
         <div className="grid gap-3 lg:grid-cols-[1.4fr_1fr_1fr_1fr_auto]">
-          <div className="relative">
-            <Search
-              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-400"
-              strokeWidth={2.2}
-            />
-            <label htmlFor="hero-q" className="sr-only">
-              Search projects
-            </label>
-            <input
-              id="hero-q"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Project, developer or sector…"
-              className="field h-11 pl-9"
-            />
-          </div>
+          <LiveSearch
+            index={searchIndex}
+            placeholder="Project, developer or sector…"
+          />
 
           <div>
             <label htmlFor="hero-loc" className="sr-only">

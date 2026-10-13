@@ -13,13 +13,13 @@ import {
   LineChart,
   MapPin,
   Scale,
-  Sparkles,
   Store,
   TrendingUp,
   Users,
 } from "lucide-react";
 import { HeroSearch } from "@/components/home/HeroSearch";
-import { ProjectCard } from "@/components/project/ProjectCard";
+import { PropertyShowcase } from "@/components/home/PropertyShowcase";
+import { buildSearchIndex } from "@/lib/search-index";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -37,8 +37,6 @@ import {
   getDevelopers,
   getFacetCounts,
   getLocalities,
-  getProjectsByCategory,
-  getTrendingProjects,
   toSlug,
 } from "@/lib/repo/projects";
 import { SITE } from "@/lib/site";
@@ -66,25 +64,21 @@ const SERVICE_ICONS: Record<string, React.ReactNode> = {
 export default async function HomePage() {
   const [
     projects,
-    trending,
-    residential,
-    commercial,
     localities,
     developers,
     facets,
     testimonials,
     posts,
+    searchIndex,
   ] = await Promise.all([
-    getAllProjects(),
-    getTrendingProjects(6),
-    getProjectsByCategory("residential"),
-    getProjectsByCategory("commercial"),
-    getLocalities(),
-    getDevelopers(),
-    getFacetCounts(),
-    getTestimonials(),
-    getPosts(),
-  ]);
+      getAllProjects(),
+      getLocalities(),
+      getDevelopers(),
+      getFacetCounts(),
+      getTestimonials(),
+      getPosts(),
+      buildSearchIndex(),
+    ]);
 
   const propertyTypes = [...new Set(projects.map((p) => p.propertyType))]
     .filter(Boolean)
@@ -97,7 +91,7 @@ export default async function HomePage() {
     { value: SITE.stats.gmv, label: "Transaction value" },
   ];
 
-  const spotlight = residential.filter((p) => p.featured).slice(0, 3);
+  const spotlight = projects.filter((p) => p.featured).slice(0, 3);
 
   return (
     <>
@@ -122,12 +116,7 @@ export default async function HomePage() {
 
         <div className="shell relative py-16 sm:py-20 lg:py-28">
           <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/35 bg-brand-500/10 px-3 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-brand-300 backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5" strokeWidth={2.4} />
-              Gurugram · Dwarka Expressway · Golf Course Road
-            </span>
-
-            <h1 className="mt-6 max-w-[22ch] font-display text-[2.25rem] font-extrabold leading-[1.08] text-white sm:text-[3rem] lg:text-[3.75rem]">
+            <h1 className="max-w-[22ch] font-display text-[2.25rem] font-extrabold leading-[1.08] text-white sm:text-[3rem] lg:text-[3.75rem]">
               {"Property advice that starts with "}
               <span className="text-brand-400">your numbers</span>
               {", not a brochure."}
@@ -153,7 +142,11 @@ export default async function HomePage() {
           </div>
 
           <div className="mt-10 lg:mt-14">
-            <HeroSearch localities={localities} propertyTypes={propertyTypes} />
+            <HeroSearch
+              localities={localities}
+              propertyTypes={propertyTypes}
+              searchIndex={searchIndex}
+            />
           </div>
 
           <dl className="mt-12 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/12 pt-8 sm:grid-cols-4">
@@ -251,92 +244,15 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ================= TRENDING ================= */}
+      {/* ================= ALL PROPERTIES ================= */}
       <section className="shell py-16 lg:py-24">
         <SectionHeading
-          eyebrow="Hot picks for smart buyers"
-          title="Trending projects in Gurugram right now"
-          description="These are the projects our advisors are fielding the most enquiries on this month — a mix of fresh launches, well-priced inventory and commercial assets with a clear rental story."
-          action={{ label: "View all projects", href: "/projects" }}
+          eyebrow={`${projects.length} properties · one place`}
+          title="Every property we represent in Gurugram"
+          description="Apartments, independent floors, high-street retail, office floors and SCO plots — all in one place. Narrow it down by category, budget or stage rather than hunting through separate pages."
+          action={{ label: "Open full directory", href: "/projects" }}
         />
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {trending.map((p, i) => (
-            <ProjectCard key={p.slug} project={p} priority={i < 3} />
-          ))}
-        </div>
-      </section>
-
-      {/* ================= CATEGORY SPLIT ================= */}
-      <section className="shell pb-16 lg:pb-24">
-        <div className="grid gap-6 lg:grid-cols-2">
-          {[
-            {
-              href: "/residential",
-              img: "/brand/band-residential.jpg",
-              eyebrow: "Residential",
-              title: "Luxury homes across Gurugram's best corridors",
-              body: `${residential.length} apartment, penthouse and independent-floor projects from 2 BHK to 5 BHK, between ${priceRange(
-                Math.min(
-                  ...residential.filter((p) => p.priceMin).map((p) => p.priceMin!),
-                ),
-                null,
-              )} and ${priceRange(
-                Math.max(
-                  ...residential.filter((p) => p.priceMin).map((p) => p.priceMin!),
-                ),
-                null,
-              )}.`,
-              cta: "Explore residential",
-              count: residential.length,
-            },
-            {
-              href: "/commercial",
-              img: "/brand/band-commercial.jpg",
-              eyebrow: "Commercial",
-              title: "Retail, offices and SCO plots built for yield",
-              body: `${commercial.length} commercial assets including high-street retail, SCO plots, food-court formats and anchor malls across Gurugram and Dwarka.`,
-              cta: "Explore commercial",
-              count: commercial.length,
-            },
-          ].map((c) => (
-            <Link
-              key={c.href}
-              href={c.href}
-              className="group relative isolate flex min-h-[21rem] flex-col justify-end overflow-hidden rounded-md bg-ink-950 p-7 lg:min-h-[24rem]"
-            >
-              <Image
-                src={c.img}
-                alt=""
-                fill
-                sizes="(max-width:1024px) 100vw, 50vw"
-                className="object-cover opacity-45 transition-all duration-700 group-hover:scale-105 group-hover:opacity-55"
-              />
-              <div
-                aria-hidden
-                className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/70 to-ink-950/10"
-              />
-              <div className="relative">
-                <span className="eyebrow eyebrow-light">{c.eyebrow}</span>
-                <h3 className="mt-3 max-w-md font-display text-[1.5rem] font-bold leading-tight text-white sm:text-[1.75rem]">
-                  {c.title}
-                </h3>
-                <p className="mt-3 max-w-md text-[0.875rem] leading-relaxed text-white/65">
-                  {c.body}
-                </p>
-                <span className="mt-5 inline-flex items-center gap-2 text-[0.8125rem] font-bold text-brand-400">
-                  {c.cta}
-                  <ArrowUpRight
-                    className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-                    strokeWidth={2.4}
-                  />
-                </span>
-              </div>
-              <span className="absolute right-6 top-6 rounded-sm bg-white/10 px-2.5 py-1 text-[0.75rem] font-bold text-white backdrop-blur">
-                {c.count} projects
-              </span>
-            </Link>
-          ))}
-        </div>
+        <PropertyShowcase projects={projects} />
       </section>
 
       {/* ================= LOCATIONS ================= */}
@@ -443,9 +359,9 @@ export default async function HomePage() {
             <SectionHeading
               tone="dark"
               eyebrow="Advisor spotlight"
-              title="Three residential projects worth a closer look"
-              description="Shortlisted on fundamentals — developer delivery record, corridor infrastructure, carpet-area efficiency and realistic possession timelines."
-              action={{ label: "All residential", href: "/residential" }}
+              title="Three properties worth a closer look"
+              description="Shortlisted on fundamentals — developer delivery record, corridor infrastructure, carpet-area efficiency and realistic possession timelines. Residential and commercial, judged the same way."
+              action={{ label: "All properties", href: "/projects" }}
             />
             <div className="mt-10 grid gap-6 lg:grid-cols-3">
               {spotlight.map((p) => (

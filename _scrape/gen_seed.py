@@ -176,6 +176,10 @@ for slug, ov in OVERLAY.items():
         'locationAdvantages': p['location_advantages'],
         'faqs': [{'question': f['q'], 'answer': f['a']} for f in p['faqs']],
         'images': ['/projects/%s/%s' % (slug, os.path.basename(i)) for i in p['images']],
+        # Left empty on purpose: we do not know what each photograph depicts,
+        # so the UI falls back to a generated description and editors can add
+        # real alt text per image from the project editor.
+        'imageAlts': [],
         'seoTitle': p['seo_title'],
         'seoDescription': p['seo_description'],
     }

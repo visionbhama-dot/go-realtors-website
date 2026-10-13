@@ -95,6 +95,22 @@ export async function saveProject(formData: FormData): Promise<Result> {
       return fail("Your role can save drafts but cannot publish.");
     }
 
+    // Gallery arrives as positional img_url / img_alt pairs from ImageManager,
+    // which keeps blank alt entries aligned with their image. Older forms that
+    // posted a newline-separated "images" textarea still work.
+    const gallery = (() => {
+      const urls = formData.getAll("img_url").map((v) => str(v)).filter(Boolean);
+      if (urls.length === 0 && formData.has("images")) {
+        const legacy = lines(formData.get("images"));
+        return { urls: legacy, alts: legacy.map(() => "") };
+      }
+      const rawAlts = formData.getAll("img_alt");
+      return {
+        urls,
+        alts: urls.map((_, i) => str(rawAlts[i] ?? null)),
+      };
+    })();
+
     const payload = {
       slug,
       legacy_slug: nullable(formData.get("legacy_slug")),
@@ -121,7 +137,8 @@ export async function saveProject(formData: FormData): Promise<Result> {
       why_invest: lines(formData.get("why_invest")),
       location_advantages: lines(formData.get("location_advantages")),
       floor_plan_note: nullable(formData.get("floor_plan_note")),
-      images: lines(formData.get("images")),
+      images: gallery.urls,
+      image_alts: gallery.alts,
       brochure_url: nullable(formData.get("brochure_url")),
       video_url: nullable(formData.get("video_url")),
       map_embed_url: nullable(formData.get("map_embed_url")),
@@ -363,6 +380,28 @@ export async function deleteRow(formData: FormData): Promise<Result> {
     await audit(actor, "delete", table, id, `Deleted ${table} record`);
     revalidatePath(cfg.path);
     return ok("Deleted.");
+  });
+}
+
+export async function updateMediaAlt(formData: FormData): Promise<Result> {
+  return wrap(async () => {
+    const actor = await requirePermission("media.write");
+    const sb = await db();
+    const id = str(formData.get("id"));
+    if (!id) return fail("Missing media id.");
+
+    const { error } = await sb
+      .from("media")
+      .update({
+        alt_text: nullable(formData.get("alt_text")),
+        folder: str(formData.get("folder")) || "general",
+      })
+      .eq("id", id);
+    if (error) return fail(error.message);
+
+    await audit(actor, "update", "media", id, "Updated media alt text");
+    revalidatePath("/admin/media");
+    return ok("Saved.");
   });
 }
 

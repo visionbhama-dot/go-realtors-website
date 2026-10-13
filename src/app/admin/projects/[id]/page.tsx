@@ -83,7 +83,15 @@ export default async function EditProjectPage({
     why_invest: arr(project.why_invest),
     location_advantages: arr(project.location_advantages),
     floor_plan_note: txt(project.floor_plan_note),
-    images: arr(project.images),
+    gallery: (Array.isArray(project.images) ? (project.images as string[]) : []).map(
+      (url, i) => ({
+        url,
+        alt:
+          (Array.isArray(project.image_alts)
+            ? ((project.image_alts as string[])[i] ?? "")
+            : "") || "",
+      }),
+    ),
     brochure_url: txt(project.brochure_url),
     video_url: txt(project.video_url),
     map_embed_url: txt(project.map_embed_url),

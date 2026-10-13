@@ -3,16 +3,24 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, imageAlt } from "@/lib/utils";
 
 export function ProjectGallery({
   images,
+  imageAlts = [],
   name,
+  sector,
+  city,
 }: {
   images: string[];
+  imageAlts?: string[];
   name: string;
+  sector?: string | null;
+  city?: string | null;
 }) {
   const list = images.length ? images : ["/brand/placeholder.svg"];
+  const altFor = (i: number) =>
+    imageAlt({ name, sector, city, imageAlts }, i, list.length);
   const [active, setActive] = useState(0);
   const [lightbox, setLightbox] = useState(false);
 
@@ -43,7 +51,7 @@ export function ProjectGallery({
         <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-ink-900">
           <Image
             src={list[active]!}
-            alt={`${name} — image ${active + 1} of ${list.length}`}
+            alt={altFor(active)}
             fill
             priority
             sizes="(max-width:1024px) 100vw, 60vw"
@@ -92,7 +100,7 @@ export function ProjectGallery({
                 key={src + i}
                 type="button"
                 onClick={() => setActive(i)}
-                aria-label={`Show image ${i + 1}`}
+                aria-label={`Show image ${i + 1}: ${altFor(i)}`}
                 aria-current={i === active}
                 className={cn(
                   "relative aspect-[4/3] w-20 shrink-0 overflow-hidden rounded-sm border-2 bg-ink-100 transition-all sm:w-full",
@@ -135,7 +143,7 @@ export function ProjectGallery({
           <div className="relative flex-1">
             <Image
               src={list[active]!}
-              alt={`${name} — image ${active + 1}`}
+              alt={altFor(active)}
               fill
               sizes="100vw"
               className="object-contain"

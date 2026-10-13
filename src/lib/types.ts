@@ -45,6 +45,8 @@ export type Project = {
   locationAdvantages: string[];
   faqs: Faq[];
   images: string[];
+  /** alt text per image, index-aligned with images */
+  imageAlts: string[];
   seoTitle: string;
   seoDescription: string;
 };

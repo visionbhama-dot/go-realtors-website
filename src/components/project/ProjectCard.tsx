@@ -9,7 +9,7 @@ import {
   Ruler,
 } from "lucide-react";
 import type { Project } from "@/lib/types";
-import { STATUS_LABEL, STATUS_TONE, cn, priceRange } from "@/lib/utils";
+import { STATUS_LABEL, STATUS_TONE, cn, imageAlt, priceRange } from "@/lib/utils";
 
 const FALLBACK = "/brand/placeholder.svg";
 
@@ -40,7 +40,7 @@ export function ProjectCard({
           >
             <Image
               src={img}
-              alt={`${project.name}, ${project.sector} ${project.city}`}
+              alt={imageAlt(project, 0, project.images.length)}
               fill
               sizes="(max-width:640px) 100vw, 18rem"
               className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
@@ -75,7 +75,7 @@ export function ProjectCard({
       >
         <Image
           src={img}
-          alt={`${project.name}, ${project.sector} ${project.city}`}
+          alt={imageAlt(project, 0, project.images.length)}
           fill
           sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
