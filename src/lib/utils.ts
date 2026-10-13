@@ -44,6 +44,29 @@ export function formatArea(sqft: number) {
   return `${sqft.toLocaleString("en-IN")} sq.ft.`;
 }
 
+/**
+ * Alt text for a project gallery image. Uses the editor-supplied description
+ * when there is one, otherwise falls back to a generated sentence so the
+ * image is never announced as unlabelled.
+ */
+export function imageAlt(
+  project: {
+    name: string;
+    sector?: string | null;
+    city?: string | null;
+    imageAlts?: string[];
+  },
+  index: number,
+  total?: number,
+): string {
+  const supplied = project.imageAlts?.[index]?.trim();
+  if (supplied) return supplied;
+
+  const place = [project.sector, project.city].filter(Boolean).join(", ");
+  const position = total && total > 1 ? ` — image ${index + 1} of ${total}` : "";
+  return `${project.name}${place ? `, ${place}` : ""} — artistic impression${position}`;
+}
+
 /** Indian digit grouping for raw counts */
 export function formatCount(n: number) {
   return n.toLocaleString("en-IN");

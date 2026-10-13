@@ -52,6 +52,7 @@ function mapProject(r: Row): Project {
     locationAdvantages: arr(r.location_advantages),
     floorPlanNote: (r.floor_plan_note as string) ?? null,
     images: arr(r.images),
+    imageAlts: arr(r.image_alts),
     configurations: cfgs
       .slice()
       .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0))

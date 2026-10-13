@@ -1,4 +1,5 @@
 import { Header, type HeaderNavItem } from "./Header";
+import { buildSearchIndex } from "@/lib/search-index";
 import {
   getAllProjects,
   getDevelopers,
@@ -6,10 +7,11 @@ import {
 } from "@/lib/repo/projects";
 
 export async function SiteHeader() {
-  const [projects, developers, localities] = await Promise.all([
+  const [projects, developers, localities, searchIndex] = await Promise.all([
     getAllProjects(),
     getDevelopers(),
     getLocalities(),
+    buildSearchIndex(),
   ]);
 
   const countFor = (fn: (p: (typeof projects)[number]) => boolean) =>
@@ -19,7 +21,6 @@ export async function SiteHeader() {
   const commercial = projects.filter((p) => p.category === "commercial");
 
   const nav: HeaderNavItem[] = [
-    { label: "Home", href: "/" },
     {
       label: "Residential",
       href: "/residential",
@@ -211,5 +212,5 @@ export async function SiteHeader() {
     },
   ];
 
-  return <Header nav={nav} />;
+  return <Header nav={nav} searchIndex={searchIndex} />;
 }

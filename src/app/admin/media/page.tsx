@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { ImageIcon, Trash2 } from "lucide-react";
-import { InlineAction } from "@/components/admin/ActionForm";
+import { ActionForm, InlineAction } from "@/components/admin/ActionForm";
 import { CopyUrl, MediaUploader } from "@/components/admin/MediaUploader";
 import { AdminHeader, EmptyState, Panel } from "@/components/admin/ui";
-import { deleteRow } from "@/app/actions/admin";
+import { deleteRow, updateMediaAlt } from "@/app/actions/admin";
 import { getCurrentUser } from "@/lib/auth";
 import { getServerSupabase } from "@/lib/supabase/server";
 import { relativeTime } from "@/lib/utils";
@@ -92,6 +92,41 @@ export default async function AdminMediaPage() {
                         : "—"}{" "}
                       · {relativeTime(String(m.created_at))}
                     </p>
+
+                    <ActionForm
+                      action={updateMediaAlt}
+                      submitLabel="Save alt text"
+                      submitClassName="btn btn-outline btn-sm"
+                      pendingLabel="Saving…"
+                      inlineFeedback={false}
+                      className="mt-2.5"
+                    >
+                      <input type="hidden" name="id" value={String(m.id)} />
+                      <input
+                        type="hidden"
+                        name="folder"
+                        value={String(m.folder ?? "general")}
+                      />
+                      <label
+                        className="field-label"
+                        htmlFor={`alt-${String(m.id)}`}
+                      >
+                        Alt text
+                      </label>
+                      <input
+                        id={`alt-${String(m.id)}`}
+                        name="alt_text"
+                        defaultValue={String(m.alt_text ?? "")}
+                        maxLength={160}
+                        placeholder="Describe what the image shows"
+                        className={
+                          m.alt_text
+                            ? "field"
+                            : "field border-amber-300 bg-amber-50/40"
+                        }
+                      />
+                    </ActionForm>
+
                     <div className="mt-2">
                       <CopyUrl url={String(m.url)} />
                     </div>

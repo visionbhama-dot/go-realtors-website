@@ -152,7 +152,8 @@ export function MediaUploader({ folders }: { folders: string[] }) {
               {done.length} file{done.length > 1 ? "s" : ""} uploaded
             </p>
             <p className="mt-1.5 text-[0.6875rem] text-brand-800">
-              Copy the URLs below into a project&apos;s Gallery images field.
+              Copy the URLs below into a project&apos;s gallery, then add alt
+              text for each file in the grid on the left.
             </p>
             <ul className="mt-2 space-y-1">
               {done.map((u) => (

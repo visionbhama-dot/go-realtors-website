@@ -10,7 +10,6 @@ import {
   MapPin,
   Menu,
   Phone,
-  Search,
   ShieldCheck,
   X,
 } from "lucide-react";
@@ -21,6 +20,8 @@ import {
   Youtube,
 } from "@/components/brand/SocialIcons";
 import { Logo } from "@/components/brand/Logo";
+import { LiveSearch, SearchTrigger } from "@/components/search/LiveSearch";
+import type { SearchItem } from "@/lib/search";
 import { SITE, WHATSAPP_LINK } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -36,7 +37,13 @@ export type HeaderNavItem = {
   mega?: MegaColumn[];
 };
 
-export function Header({ nav }: { nav: HeaderNavItem[] }) {
+export function Header({
+  nav,
+  searchIndex,
+}: {
+  nav: HeaderNavItem[];
+  searchIndex: SearchItem[];
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState<string | null>(null);
   const [drawer, setDrawer] = useState(false);
@@ -251,13 +258,7 @@ export function Header({ nav }: { nav: HeaderNavItem[] }) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Link
-              href="/search"
-              aria-label="Search projects"
-              className="hidden h-9 w-9 items-center justify-center rounded-sm border border-ink-200 text-ink-700 transition-colors hover:border-ink-950 hover:text-ink-950 lg:inline-flex"
-            >
-              <Search className="h-4 w-4" strokeWidth={2.2} />
-            </Link>
+            <SearchTrigger index={searchIndex} />
             <a
               href={`tel:${SITE.phone}`}
               className="btn btn-outline btn-sm hidden xl:inline-flex"
@@ -308,6 +309,13 @@ export function Header({ nav }: { nav: HeaderNavItem[] }) {
             </div>
 
             <div className="flex-1 overflow-y-auto px-2 py-3">
+              <div className="px-1 pb-3">
+                <LiveSearch
+                  index={searchIndex}
+                  placeholder="Search projects…"
+                  onClose={() => setDrawer(false)}
+                />
+              </div>
               {nav.map((item) => (
                 <MobileItem key={item.label} item={item} />
               ))}

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ExternalLink, Plus, Trash2 } from "lucide-react";
 import { ActionForm } from "@/components/admin/ActionForm";
 import { Field, Panel } from "@/components/admin/ui";
+import { ImageManager, type GalleryImage } from "@/components/admin/ImageManager";
 import { saveProject } from "@/app/actions/admin";
 import { slugify } from "@/lib/utils";
 
@@ -35,7 +36,7 @@ export type ProjectFormValues = {
   why_invest: string;
   location_advantages: string;
   floor_plan_note: string;
-  images: string;
+  gallery: GalleryImage[];
   brochure_url: string;
   video_url: string;
   map_embed_url: string;
@@ -78,7 +79,7 @@ export const EMPTY_PROJECT: ProjectFormValues = {
   why_invest: "",
   location_advantages: "",
   floor_plan_note: "",
-  images: "",
+  gallery: [],
   brochure_url: "",
   video_url: "",
   map_embed_url: "",
@@ -533,23 +534,12 @@ export function ProjectForm({
       <div hidden={tab !== "media"} className="space-y-5">
         <Panel
           title="Gallery images"
-          description="One URL or path per line. The first image is used as the card thumbnail and Open Graph image."
+          description="Upload images and give each one alt text. The first image is the card thumbnail and social preview."
         >
-          <textarea
-            name="images"
-            rows={9}
-            defaultValue={initial.images}
-            className="field resize-y font-mono text-[0.8125rem]"
-            placeholder={"/projects/my-project/01.jpg\nhttps://xxxx.supabase.co/storage/v1/object/public/media/my-project/02.jpg"}
+          <ImageManager
+            initial={initial.gallery}
+            folder={slug || "general"}
           />
-          <p className="mt-3 rounded-sm bg-ink-50 p-3 text-[0.6875rem] leading-relaxed text-ink-500">
-            Paths beginning with <code className="font-mono">/</code> are served
-            from the site&apos;s own <code className="font-mono">public</code>{" "}
-            folder. Full URLs must be on an allowed host — Supabase Storage
-            public buckets are already permitted in{" "}
-            <code className="font-mono">next.config.ts</code>. Upload files from
-            the Media screen to get public URLs.
-          </p>
         </Panel>
 
         <Panel title="Documents & embeds">
