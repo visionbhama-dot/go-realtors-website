@@ -1327,7 +1327,7 @@ update blog_posts p set category_id = c.id from blog_categories c where c.name =
 -- -------------------------------------------------------------- team
 insert into team_members (slug, name, role_title, bio, focus, email, phone, sort_order, state) values
   ('tarun-bhalla', 'Tarun Bhalla', 'Founder & Principal Advisor', 'Tarun founded GoRealtors to replace brochure-led broking with advisory that starts from the client''s balance sheet. He leads developer relationships and personally handles luxury and commercial mandates across Gurugram.', 'Luxury residential, commercial investment, NRI mandates',
-   'tarun.gorealtors@gmail.com', '+919610630151', 0, 'published')
+   'tarun.gorealtors@gmail.com', '+919560627388', 0, 'published')
 on conflict (slug) do update set name = excluded.name, role_title = excluded.role_title,
   bio = excluded.bio, focus = excluded.focus, email = excluded.email,
   phone = excluded.phone, sort_order = excluded.sort_order;
@@ -1414,7 +1414,7 @@ insert into seo_pages (path, label, title, description, keywords) values
 on conflict (path) do update set label = excluded.label, title = excluded.title,
   description = excluded.description, keywords = excluded.keywords;
 insert into seo_pages (path, label, title, description, keywords) values
-  ('/contact', 'Contact', 'Contact GoRealtors | Property Consultant in Sector 83, Gurugram', 'Talk to GoRealtors about property in Gurugram. Call +91 96106 30151, email tarun.gorealtors@gmail.com or visit us at SVH Metro Street, Sector 83, Gurugram.', '{"contact gorealtors","property consultant near me gurugram"}')
+  ('/contact', 'Contact', 'Contact GoRealtors | Property Consultant in Sector 83, Gurugram', 'Talk to GoRealtors about property in Gurugram. Call +91 95606 27388, email tarun.gorealtors@gmail.com or visit us at SVH Metro Street, Sector 83, Gurugram.', '{"contact gorealtors","property consultant near me gurugram"}')
 on conflict (path) do update set label = excluded.label, title = excluded.title,
   description = excluded.description, keywords = excluded.keywords;
 insert into seo_pages (path, label, title, description, keywords) values
@@ -1447,11 +1447,11 @@ on conflict (path) do update set label = excluded.label, title = excluded.title,
   description = excluded.description, keywords = excluded.keywords;
 
 -- ----------------------------------------------------------- settings
-insert into settings (key, value, group_name) values ('contact.phone', to_jsonb('+91 96106 30151'::text), 'contact')
+insert into settings (key, value, group_name) values ('contact.phone', to_jsonb('+91 95606 27388'::text), 'contact')
 on conflict (key) do update set value = excluded.value, group_name = excluded.group_name;
-insert into settings (key, value, group_name) values ('contact.phone_raw', to_jsonb('+919610630151'::text), 'contact')
+insert into settings (key, value, group_name) values ('contact.phone_raw', to_jsonb('+919560627388'::text), 'contact')
 on conflict (key) do update set value = excluded.value, group_name = excluded.group_name;
-insert into settings (key, value, group_name) values ('contact.whatsapp', to_jsonb('919610630151'::text), 'contact')
+insert into settings (key, value, group_name) values ('contact.whatsapp', to_jsonb('919560627388'::text), 'contact')
 on conflict (key) do update set value = excluded.value, group_name = excluded.group_name;
 insert into settings (key, value, group_name) values ('contact.email', to_jsonb('tarun.gorealtors@gmail.com'::text), 'contact')
 on conflict (key) do update set value = excluded.value, group_name = excluded.group_name;

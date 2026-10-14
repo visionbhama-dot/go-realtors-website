@@ -7,9 +7,9 @@ export const SITE = {
     "GoRealtors is a RERA-registered real estate advisory in Gurugram specialising in luxury residences, commercial retail, SCO plots and investment advisory across Dwarka Expressway, Golf Course Road and New Gurgaon.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://gorealtors.in",
   locale: "en_IN",
-  phone: "+919610630151",
-  phoneDisplay: "+91 96106 30151",
-  whatsapp: "919610630151",
+  phone: "+919560627388",
+  phoneDisplay: "+91 95606 27388",
+  whatsapp: "919560627388",
   email: "tarun.gorealtors@gmail.com",
   rera: "RERA Registered Advisory",
   address: {

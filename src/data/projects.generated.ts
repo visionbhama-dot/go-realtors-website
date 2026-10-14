@@ -58,6 +58,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "Thoughtfully crafted 3 BHK layouts (1,947 - 2,403 sq ft) with balanced space. Generous 4 BHK plans (3,700 sq ft) for upscale family living. Elegant penthouses with double-height ceilings and premium finishes.",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Investing in Godrej Vrikshya Sector 103 Gurgaon combines brand trust, premium living, and sustainable design.",
@@ -174,6 +175,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "3 BHK Layout: Thoughtfully designed with a spacious living-dining area and balcony for panoramic views. 4 BHK Layout: Includes dual-entry foyer, family lounge, and large bedrooms with attached baths. 5 BHK Layout: Grand spaces with double-height ceilings, expansive decks, and smart automation.",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Tulip Monsella Gurgaon offers a rare combination of luxury, prime location, and strong long-term value.",
@@ -285,6 +287,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "Explore thoughtfully designed floor plans of M3M Altitude Sector 65 , including spacious 4 BHK ultra-luxury apartments. 4 BHK M3M Altitude",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "M3M Altitude Sector 65 Gurgaon offers exceptional investment potential , combining a prime location , luxurious design, and architectural excellence.",
@@ -427,6 +430,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "Efficiently designed layouts for maximum space utilization Large balconies offering panoramic city views Master bedrooms with walk-in wardrobes and attached luxury bathrooms",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Investing in Smart World One DXP Sector 113 Gurgaon provides an opportunity to own a home in one of the most prestigious areas along the Delhi-Gurgaon border.",
@@ -542,6 +546,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "3 & 4 BHK layouts with spacious living, dining, and balcony spaces All Sobha Aranya Floor plans maximize natural light and ventilation",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "The project offers modern amenities, sustainable living, and thoughtfully planned layouts, making it perfect for families and investors alike.",
@@ -677,6 +682,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "3 BHK units ranging from 1347 to 2107 sq. ft. 4 BHK units ranging from 1692 to 2717 sq. ft. 5 BHK units ranging from 2283 to 3802 sq. ft.",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Strategically positioned on the Dwarka Expressway, it ensures seamless connectivity to IGI Airport, Delhi, and major business hubs.",
@@ -814,6 +820,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "Discover thoughtfully designed residences at Hero Homes The Palatial , offering spacious layouts that balance comfort, elegance, and functionality",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Positioned along the rapidly developing Dwarka Expressway, the project ensures excellent connectivity to IGI Airport, Delhi, and major commercial hubs.",
@@ -934,6 +941,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "3 BHK apartments with spacious layouts and private terraces. 4 BHK units offering expansive living spaces. 3 BHK 4 BHK Indiabulls Estate and Club",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Investing in Indiabulls Estate and Club 104 offers unparalleled luxury and strong potential for high returns.",
@@ -1059,6 +1067,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "Check out the detailed layout in the SS Camasa floor plan . 4 BHK SS Camasa",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "SS Camasa Gurgaon offers a perfect blend of luxury, space, and connectivity in one of the fastest-growing sectors of Gurgaon.",
@@ -1186,6 +1195,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "Explore SS Cendana floor plan to view efficiently designed 3 BHK layouts with spacious living areas, balconies, and modern kitchens. 3 BHK + Study SS Cendana",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "SS Cendana Gurgaon presents a perfect blend of luxury, location, and lifestyle, making it an ideal choice for both investors and homeowners.",
@@ -1314,6 +1324,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "Discover spacious 4 BHK and 5 BHK layouts with functional zoning and natural ventilation. 4 BHK 5 BHK SS Linden Floors",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "SS Linden Floors Sector 84 is an ideal investment for homebuyers seeking luxury residences and privacy in Gurgaon's New Gurgaon area.",
@@ -1441,6 +1452,7 @@ export const GENERATED_PROJECTS: Project[] = [
     ],
     configurations: [],
     floorPlanNote: "Explore 3 & 4 BHK well-optimized HCBS Twin Horizon floor plans for smart living. 3 BHK 4 BHK HCBS Twin Horizon",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Situated in HCBS Sector 102 Gurgaon , the project enjoys excellent connectivity to Dwarka Expressway, Delhi, IGI Airport, and major business hubs.",
@@ -1565,6 +1577,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "Thoughtfully designed 3 BHK layouts with spacious balconies. Vastu-compliant floor plans for energy efficiency. Open-plan kitchens and attached bathrooms for each bedroom.",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "BPTP Gaia Residences Gurgaon is a premium residential project offering the perfect combination of luxury and investment potential.",
@@ -1688,6 +1701,7 @@ export const GENERATED_PROJECTS: Project[] = [
     ],
     configurations: [],
     floorPlanNote: "Discover the thoughtfully designed Central Park 104 floor plans featuring luxurious 3, 4 BHK & Studio apartments , layouts optimized for space, comfort, and modern living.",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Central Park 104 Gurgaon offers a rare combination of luxury, connectivity, and investment potential.",
@@ -1806,6 +1820,7 @@ export const GENERATED_PROJECTS: Project[] = [
     ],
     configurations: [],
     floorPlanNote: "AIPL lake city 103 floor plan offers well-optimized layouts. Spacious living and dining areas with ample natural light. Balconies and private spaces designed for comfort.",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Investing in AIPL Lake City 103 presents a unique opportunity to own a premium property in Gurgaon's fast-developing Dwarka Expressway corridor.",
@@ -1953,6 +1968,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "Explore flexible layouts tailored for retail, food court, and office use in the AIPL Joy District floor plan. Shops Shops Shops Shops Shops AIPL Joy District Gurgaon",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Nestled in New Gurgaon's high-demand corridor, the project enjoys excellent connectivity via Dwarka Expressway, NH-48, and the upcoming metro station.",
@@ -2076,6 +2092,7 @@ export const GENERATED_PROJECTS: Project[] = [
     ],
     configurations: [],
     floorPlanNote: "Detailed floor plans are available upon request. Shop Conscient SOHO 62 Gurgaon",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Investing in Conscient SOHO Sector 62.",
@@ -2195,6 +2212,7 @@ export const GENERATED_PROJECTS: Project[] = [
     ],
     configurations: [],
     floorPlanNote: "Detailed MVN Mall floor plan available for retail, office, and food court areas. Well-planned layouts ensure maximum efficiency and visibility for every unit. Investors can request the MVN Mall brochure for complete floor plan details.",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "MVN Mall Dwarka Expressway emerges as a premium investment destination, blending strategic location, innovative design, and rising demand.",
@@ -2316,6 +2334,7 @@ export const GENERATED_PROJECTS: Project[] = [
     ],
     configurations: [],
     floorPlanNote: "The Reach The BAZARIA floor plan includes flexible layouts for retail, SCO, and entertainment spaces. Efficient space utilization for high customer footfall. Wide corridors and open-air high-street retail concept.",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Reach The BAZARIA 68 Gurgaon presents a unique opportunity to invest in premium commercial property within a rapidly growing corridor.",
@@ -2442,6 +2461,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "Detailed Reach Buzz floor plan available for SCO plots, retail shops & office suites. Flexible layouts for branding & customization. Optimized designs for high visibility & footfall.",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "Reach Buzz 114 Gurgaon is a premium commercial hub that combines strategic location, modern design, and high investment potential.",
@@ -2567,6 +2587,7 @@ export const GENERATED_PROJECTS: Project[] = [
       },
     ],
     floorPlanNote: "Detailed floor plans for hybrid retail, anchor stores, and entertainment zones are available for investors and retailers.",
+    videoUrl: null,
     whyInvest: [
       "in this Project.",
       "The Omaxe State.",

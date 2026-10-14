@@ -172,6 +172,7 @@ for slug, ov in OVERLAY.items():
             {'type': c['type'].replace('BHK', 'BHK'), 'areaSqft': c['area_sqft'], 'price': c['price']}
             for c in cfgs],
         'floorPlanNote': p['floor_plan_note'] or None,
+        'videoUrl': None,
         'whyInvest': p['why_invest'],
         'locationAdvantages': p['location_advantages'],
         'faqs': [{'question': f['q'], 'answer': f['a']} for f in p['faqs']],

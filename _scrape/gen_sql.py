@@ -319,7 +319,7 @@ seo_rows = [
      ["gorealtors team", "property advisors gurugram"]),
     ("/contact", "Contact",
      "Contact GoRealtors | Property Consultant in Sector 83, Gurugram",
-     "Talk to GoRealtors about property in Gurugram. Call +91 96106 30151, email tarun.gorealtors@gmail.com or visit us at SVH Metro Street, Sector 83, Gurugram.",
+     "Talk to GoRealtors about property in Gurugram. Call +91 95606 27388, email tarun.gorealtors@gmail.com or visit us at SVH Metro Street, Sector 83, Gurugram.",
      ["contact gorealtors", "property consultant near me gurugram"]),
     ("/careers", "Careers", "Careers at GoRealtors | Real Estate Jobs in Gurugram",
      "Join GoRealtors in Gurugram. Open roles for property advisors, commercial investment analysts and digital marketing executives at a buyer-side real estate advisory.",
@@ -353,9 +353,9 @@ A("")
 # ----------------------------------------------------------- settings
 A("-- ----------------------------------------------------------- settings")
 settings = [
-    ("contact.phone", "+91 96106 30151", "contact"),
-    ("contact.phone_raw", "+919610630151", "contact"),
-    ("contact.whatsapp", "919610630151", "contact"),
+    ("contact.phone", "+91 95606 27388", "contact"),
+    ("contact.phone_raw", "+919560627388", "contact"),
+    ("contact.whatsapp", "919560627388", "contact"),
     ("contact.email", "tarun.gorealtors@gmail.com", "contact"),
     ("contact.address_line1", "SVH Metro Street, 1522-1523", "contact"),
     ("contact.address_line2", "Sector 83", "contact"),

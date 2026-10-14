@@ -19,6 +19,12 @@ import {
 } from "lucide-react";
 import { HeroSearch } from "@/components/home/HeroSearch";
 import { PropertyShowcase } from "@/components/home/PropertyShowcase";
+import {
+  CuratedCollections,
+  FeaturedCities,
+  PropertyTypeStrip,
+} from "@/components/home/HomeSections";
+import { TrendingProjects } from "@/components/home/TrendingProjects";
 import { buildSearchIndex } from "@/lib/search-index";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
@@ -31,7 +37,8 @@ import {
   SERVICES,
   WHY_CHOOSE,
 } from "@/data/content";
-import { getPosts, getTestimonials } from "@/lib/repo/content";
+import { getPosts, getTeam, getTestimonials } from "@/lib/repo/content";
+import { Leadership } from "@/components/home/Leadership";
 import {
   getAllProjects,
   getDevelopers,
@@ -80,6 +87,8 @@ export default async function HomePage() {
       buildSearchIndex(),
     ]);
 
+  const team = await getTeam();
+
   const propertyTypes = [...new Set(projects.map((p) => p.propertyType))]
     .filter(Boolean)
     .map((t) => ({ slug: toSlug(t), name: t }));
@@ -92,6 +101,20 @@ export default async function HomePage() {
   ];
 
   const spotlight = projects.filter((p) => p.featured).slice(0, 3);
+
+  const trendingProjects = [...projects]
+    .sort(
+      (a, b) =>
+        Number(b.featured) - Number(a.featured) ||
+        Number(b.trending) - Number(a.trending) ||
+        (b.priceMin ?? 0) - (a.priceMin ?? 0),
+    )
+    .slice(0, 10);
+
+  const cityCounts = projects.reduce<Record<string, number>>((acc, p) => {
+    acc[p.city] = (acc[p.city] ?? 0) + 1;
+    return acc;
+  }, {});
 
   return (
     <>
@@ -114,34 +137,17 @@ export default async function HomePage() {
           className="absolute inset-0 bg-gradient-to-t from-ink-950 via-transparent to-ink-950/50"
         />
 
-        <div className="shell relative py-16 sm:py-20 lg:py-28">
-          <div className="max-w-3xl">
-            <h1 className="max-w-[22ch] font-display text-[2.25rem] font-extrabold leading-[1.08] text-white sm:text-[3rem] lg:text-[3.75rem]">
-              {"Property advice that starts with "}
-              <span className="text-brand-400">your numbers</span>
-              {", not a brochure."}
-            </h1>
+        <div className="shell relative py-16 text-center sm:py-20 lg:py-24">
+          <h1 className="mx-auto max-w-4xl font-display text-[2.25rem] font-extrabold leading-[1.1] text-white sm:text-[3rem] lg:text-[3.5rem]">
+            Discover properties in{" "}
+            <span className="text-brand-400">Gurugram</span> &amp; beyond
+          </h1>
+          <p className="mx-auto mt-5 max-w-xl text-[1rem] leading-relaxed text-white/70 sm:text-[1.0625rem]">
+            We help you find your next home — RERA-verified projects, honest
+            numbers, and zero brokerage on new launches.
+          </p>
 
-            <p className="mt-6 max-w-2xl text-[1rem] leading-relaxed text-white/70 sm:text-[1.0625rem]">
-              GoRealtors represents buyers and investors across Gurugram&apos;s
-              luxury residential, high-street retail and SCO plotted markets.
-              Every project we put in front of you has been checked for HARERA
-              status, carpet-area loading and real exit potential — before it
-              reaches your shortlist.
-            </p>
-
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link href="/projects" className="btn btn-primary btn-lg">
-                Browse {projects.length} Projects
-                <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
-              </Link>
-              <Link href="/contact" className="btn btn-ghost-light btn-lg">
-                Book a Free Consultation
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-10 lg:mt-14">
+          <div className="mx-auto mt-9 max-w-3xl text-left">
             <HeroSearch
               localities={localities}
               propertyTypes={propertyTypes}
@@ -149,7 +155,7 @@ export default async function HomePage() {
             />
           </div>
 
-          <dl className="mt-12 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/12 pt-8 sm:grid-cols-4">
+          <dl className="mx-auto mt-12 grid max-w-4xl grid-cols-2 gap-x-6 gap-y-7 border-t border-white/12 pt-9 sm:grid-cols-4">
             {heroStats.map((s) => (
               <div key={s.label}>
                 <dt className="sr-only">{s.label}</dt>
@@ -157,7 +163,7 @@ export default async function HomePage() {
                   <span className="block font-display text-[1.75rem] font-extrabold leading-none text-white sm:text-[2.125rem]">
                     {s.value}
                   </span>
-                  <span className="mt-1.5 block text-[0.75rem] font-semibold uppercase tracking-[0.1em] text-white/45">
+                  <span className="mt-1.5 block text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-white/45">
                     {s.label}
                   </span>
                 </dd>
@@ -207,6 +213,47 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ================= PROPERTY TYPES ================= */}
+      <section className="shell py-14 lg:py-20">
+        <SectionHeading
+          align="center"
+          eyebrow="Explore by type"
+          title="What are you looking for?"
+          description="Jump straight to the kind of property you want — from branded residences to commercial plots."
+        />
+        <div className="mt-10">
+          <PropertyTypeStrip />
+        </div>
+      </section>
+
+      {/* ================= CURATED COLLECTIONS ================= */}
+      <section className="border-y border-ink-200 bg-ink-50/50 py-14 lg:py-20">
+        <div className="shell">
+          <SectionHeading
+            align="center"
+            eyebrow="Curated collections"
+            title="Prime properties, grouped for you"
+            description="Hand-picked shortlists based on how people actually search — stage, budget and format."
+          />
+          <div className="mt-10">
+            <CuratedCollections />
+          </div>
+        </div>
+      </section>
+
+      {/* ================= TRENDING PROJECTS ================= */}
+      <section className="shell py-16 lg:py-24">
+        <SectionHeading
+          eyebrow="Trending projects"
+          title="The noteworthy real estate in Gurugram"
+          description="The projects drawing the most buyer interest this quarter."
+          action={{ label: "View all projects", href: "/projects" }}
+        />
+        <div className="mt-10">
+          <TrendingProjects projects={trendingProjects} />
+        </div>
+      </section>
+
       {/* ================= DEVELOPER MARQUEE ================= */}
       <section className="overflow-hidden border-b border-ink-200 py-8">
         <p className="shell text-center text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-ink-400">
@@ -253,6 +300,21 @@ export default async function HomePage() {
           action={{ label: "Open full directory", href: "/projects" }}
         />
         <PropertyShowcase projects={projects} />
+      </section>
+
+      {/* ================= FEATURED CITIES ================= */}
+      <section className="border-y border-ink-200 bg-ink-50/50 py-16 lg:py-24">
+        <div className="shell">
+          <SectionHeading
+            align="center"
+            eyebrow="Featured cities"
+            title="Find your home in the city of your choice"
+            description="We're rooted in Gurugram and Delhi today, and expanding across India's major property markets. Tell us where you're looking and we'll source it."
+          />
+          <div className="mt-10">
+            <FeaturedCities cityCounts={cityCounts} />
+          </div>
+        </div>
       </section>
 
       {/* ================= LOCATIONS ================= */}
@@ -351,6 +413,21 @@ export default async function HomePage() {
           </ul>
         </div>
       </section>
+
+      {/* ================= LEADERSHIP ================= */}
+      {team.length > 0 && (
+        <section className="shell py-16 lg:py-24">
+          <SectionHeading
+            eyebrow="Leadership"
+            title="The people behind GoRealtors"
+            description="A founder-led advisory. The person who takes your first call is accountable for your file through to registry."
+            action={{ label: "Meet the full team", href: "/team" }}
+          />
+          <div className="mt-10">
+            <Leadership members={team} />
+          </div>
+        </section>
+      )}
 
       {/* ================= SPOTLIGHT ================= */}
       {spotlight.length > 0 && (

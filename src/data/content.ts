@@ -470,7 +470,7 @@ export const TEAM: TeamMember[] = [
     bio: "Tarun founded GoRealtors to replace brochure-led broking with advisory that starts from the client's balance sheet. He leads developer relationships and personally handles luxury and commercial mandates across Gurugram.",
     focus: "Luxury residential, commercial investment, NRI mandates",
     email: "tarun.gorealtors@gmail.com",
-    phone: "+919610630151",
+    phone: "+919560627388",
     initials: "TB",
   },
 ];
@@ -577,3 +577,105 @@ export const HOME_FAQS: Faq[] = [
 
 export const DEVELOPER_BY_NAME = new Map(DEVELOPERS.map((d) => [d.name, d]));
 export const LOCALITY_BY_NAME = new Map(LOCALITIES.map((l) => [l.name, l]));
+
+/* ------------------------------------------------------------------ *
+ * Home page — browse-by-property-type strip
+ * Each entry maps to a filtered view of the project directory.
+ * ------------------------------------------------------------------ */
+export type PropertyTypeTile = {
+  label: string;
+  href: string;
+  icon: string;
+};
+
+export const PROPERTY_TYPE_TILES: PropertyTypeTile[] = [
+  { label: "Branded Residences", href: "/projects?category=residential&minPrice=50000000", icon: "penthouse" },
+  { label: "Under Construction", href: "/projects?status=under-construction", icon: "construction" },
+  { label: "Ready To Move", href: "/projects?status=ready-to-move", icon: "ready" },
+  { label: "Highrise Apartment", href: "/projects?propertyType=apartment", icon: "apartment" },
+  { label: "Independent Builder Floors", href: "/projects?propertyType=independent-floor", icon: "floors" },
+  { label: "Residential Plot", href: "/projects?category=residential&q=plot", icon: "plot" },
+  { label: "Commercial Plot", href: "/projects?propertyType=sco-plots", icon: "sco" },
+  { label: "Low Rise Floors", href: "/projects?propertyType=independent-floor", icon: "township" },
+];
+
+/* ------------------------------------------------------------------ *
+ * Home page — curated collections (image tiles)
+ * ------------------------------------------------------------------ */
+export type Collection = {
+  label: string;
+  href: string;
+  image: string;
+};
+
+export const CURATED_COLLECTIONS: Collection[] = [
+  {
+    label: "New Projects",
+    href: "/projects?status=new-launch",
+    image: "/projects/smart-world-one-dxp-sector-113-gurgaon/01.jpg",
+  },
+  {
+    label: "Ready to Move",
+    href: "/projects?status=ready-to-move",
+    image: "/projects/elan-the-presidential-gurgaon/02.jpg",
+  },
+  {
+    label: "Luxury",
+    href: "/projects?category=residential&minPrice=50000000",
+    image: "/projects/tulip-monsella-sector-53-gurgaon-premium-3-4-bhk-apartments/03.webp",
+  },
+  {
+    label: "Budget Friendly",
+    href: "/projects?category=residential&maxPrice=30000000",
+    image: "/projects/ss-cendana-sector-83-gurgaon/01.webp",
+  },
+  {
+    label: "Condominiums",
+    href: "/projects?propertyType=apartment",
+    image: "/projects/sobha-aranya-sector-80-gurgaon-luxury-apartments-modern-living/02.jpg",
+  },
+  {
+    label: "Builder Floors",
+    href: "/projects?propertyType=independent-floor",
+    image: "/projects/ss-linden-floors-sector-84-gurgaon/01.jpg",
+  },
+  {
+    label: "Commercial & Retail",
+    href: "/commercial",
+    image: "/projects/aipl-joy-district-gurgaon/01.jpg",
+  },
+  {
+    label: "SCO Plots",
+    href: "/projects?propertyType=sco-plots",
+    image: "/projects/reach-the-bazaria-68-gurgaon-premium-sco-plots-retail-spaces/01.jpg",
+  },
+];
+
+/* ------------------------------------------------------------------ *
+ * Home page — featured cities
+ * GoRealtors transacts in Gurugram and Delhi today; the other cities
+ * are on the expansion roadmap. Cities with live inventory link to
+ * filtered results; the rest invite an enquiry rather than showing a
+ * fake options count.
+ * ------------------------------------------------------------------ */
+export type FeaturedCity = {
+  name: string;
+  /** matches Project.city for inventory lookup */
+  matchCity?: string;
+  /** two-colour gradient for the card, on-brand */
+  gradient: string;
+};
+
+export const FEATURED_CITIES: FeaturedCity[] = [
+  { name: "Gurugram", matchCity: "Gurugram", gradient: "from-brand-700 to-brand-900" },
+  { name: "New Delhi", matchCity: "New Delhi", gradient: "from-ink-700 to-ink-950" },
+  { name: "Noida", gradient: "from-emerald-700 to-emerald-900" },
+  { name: "Pune", gradient: "from-teal-700 to-teal-900" },
+  { name: "Hyderabad", gradient: "from-ink-600 to-ink-900" },
+  { name: "Bangalore", gradient: "from-brand-600 to-brand-800" },
+  { name: "Chennai", gradient: "from-cyan-700 to-cyan-900" },
+  { name: "Mumbai", gradient: "from-ink-700 to-brand-900" },
+  { name: "Goa", gradient: "from-teal-600 to-emerald-800" },
+  { name: "Lucknow", gradient: "from-amber-700 to-ink-800" },
+  { name: "Kolkata", gradient: "from-ink-600 to-ink-800" },
+];
