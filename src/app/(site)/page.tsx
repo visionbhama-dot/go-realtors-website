@@ -25,6 +25,8 @@ import {
   PropertyTypeStrip,
 } from "@/components/home/HomeSections";
 import { TrendingProjects } from "@/components/home/TrendingProjects";
+import { RotatingText } from "@/components/home/RotatingText";
+import { NavIcon, type NavIconKey } from "@/components/layout/navIcons";
 import { buildSearchIndex } from "@/lib/search-index";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
@@ -44,7 +46,6 @@ import {
   getDevelopers,
   getFacetCounts,
   getLocalities,
-  toSlug,
 } from "@/lib/repo/projects";
 import { SITE } from "@/lib/site";
 import { formatDate, priceRange } from "@/lib/utils";
@@ -88,10 +89,6 @@ export default async function HomePage() {
     ]);
 
   const team = await getTeam();
-
-  const propertyTypes = [...new Set(projects.map((p) => p.propertyType))]
-    .filter(Boolean)
-    .map((t) => ({ slug: toSlug(t), name: t }));
 
   const heroStats = [
     { value: String(projects.length), label: "Live projects" },
@@ -138,21 +135,27 @@ export default async function HomePage() {
         />
 
         <div className="shell relative py-16 text-center sm:py-20 lg:py-24">
-          <h1 className="mx-auto max-w-4xl font-display text-[2.25rem] font-extrabold leading-[1.1] text-white sm:text-[3rem] lg:text-[3.5rem]">
-            Discover properties in{" "}
-            <span className="text-brand-400">Gurugram</span> &amp; beyond
+          <h1 className="mx-auto flex max-w-4xl flex-col items-center font-display text-[2.25rem] font-extrabold leading-[1.1] text-white sm:text-[3rem] lg:text-[3.5rem]">
+            <span>Discover properties in</span>
+            <RotatingText
+              className="text-brand-400"
+              words={[
+                "Gurugram",
+                "New Delhi",
+                "Dwarka Expressway",
+                "Golf Course Road",
+                "Noida",
+                "popular localities",
+              ]}
+            />
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-[1rem] leading-relaxed text-white/70 sm:text-[1.0625rem]">
             We help you find your next home — RERA-verified projects, honest
             numbers, and zero brokerage on new launches.
           </p>
 
-          <div className="mx-auto mt-9 max-w-3xl text-left">
-            <HeroSearch
-              localities={localities}
-              propertyTypes={propertyTypes}
-              searchIndex={searchIndex}
-            />
+          <div className="mx-auto mt-9 max-w-2xl text-left">
+            <HeroSearch searchIndex={searchIndex} />
           </div>
 
           <dl className="mx-auto mt-12 grid max-w-4xl grid-cols-2 gap-x-6 gap-y-7 border-t border-white/12 pt-9 sm:grid-cols-4">
@@ -376,41 +379,42 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ================= WHY CHOOSE ================= */}
-      <section className="shell py-16 lg:py-24">
-        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <SectionHeading
-              eyebrow="Why GoRealtors"
-              title="Most brokers sell inventory. We represent you."
-              description="The difference shows up in what you receive: a comparison sheet instead of a brochure, a yield model instead of a sales pitch, and the same advisor from the first call to the registry."
-            />
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/about" className="btn btn-dark">
-                Our approach
-                <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
-              </Link>
-              <Link href="/team" className="btn btn-outline">
-                Meet the team
-              </Link>
-            </div>
-          </div>
-
-          <ul className="grid gap-px bg-ink-200 sm:grid-cols-2">
-            {WHY_CHOOSE.map((w, i) => (
-              <li key={w.title} className="bg-white p-6">
-                <span className="font-display text-[0.8125rem] font-extrabold text-brand-600">
-                  {String(i + 1).padStart(2, "0")}
+      {/* ================= WHY BUY WITH US ================= */}
+      <section className="border-y border-ink-200 bg-ink-50/50 py-16 lg:py-24">
+        <div className="shell">
+          <SectionHeading
+            align="center"
+            eyebrow="Why GoRealtors"
+            title="Why buy with us?"
+            description="The things that make GoRealtors a genuine advisory, not another listing desk."
+          />
+          <div className="mt-11 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {WHY_CHOOSE.map((w) => (
+              <article
+                key={w.title}
+                className="group flex flex-col items-center rounded-lg border border-ink-200 bg-white p-7 text-center transition-all hover:-translate-y-1 hover:border-brand-300 hover:shadow-lift"
+              >
+                <span className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-brand-50 text-brand-700 transition-colors group-hover:bg-brand-600 group-hover:text-white">
+                  <NavIcon name={w.icon as NavIconKey} className="h-7 w-7" />
                 </span>
-                <h3 className="mt-2.5 font-display text-[0.9375rem] font-bold leading-snug">
+                <h3 className="mt-5 font-display text-[1.0625rem] font-bold leading-snug">
                   {w.title}
                 </h3>
-                <p className="mt-2 text-[0.8125rem] leading-relaxed text-ink-600">
+                <p className="mt-2.5 text-[0.875rem] leading-relaxed text-ink-600">
                   {w.body}
                 </p>
-              </li>
+              </article>
             ))}
-          </ul>
+          </div>
+          <div className="mt-10 flex justify-center gap-3">
+            <Link href="/about" className="btn btn-dark">
+              Our approach
+              <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
+            </Link>
+            <Link href="/contact" className="btn btn-outline">
+              Talk to an advisor
+            </Link>
+          </div>
         </div>
       </section>
 

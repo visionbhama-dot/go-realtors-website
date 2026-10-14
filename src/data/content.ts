@@ -434,26 +434,32 @@ export const PROCESS_STEPS = [
  * ------------------------------------------------------------------ */
 export const WHY_CHOOSE = [
   {
+    icon: "developer",
     title: "Channel-partner access, not listing-portal guesswork",
     body: "Direct allocation relationships with 40+ developers mean we quote live inventory and real availability, not stale portal data.",
   },
   {
+    icon: "portfolio",
     title: "Numbers before narrative",
     body: "Every recommendation comes with carpet area, loading percentage, all-in outgo and a yield or appreciation case you can interrogate.",
   },
   {
+    icon: "rera",
     title: "RERA-first due diligence",
     body: "We verify HARERA registration, quarterly progress filings and licence status before a project enters your shortlist.",
   },
   {
+    icon: "money",
     title: "Zero brokerage on primary sales",
     body: "Our fee comes from the developer on new-launch transactions, so our advice costs you nothing on the buy side.",
   },
   {
+    icon: "advisory",
     title: "One point of contact, start to finish",
     body: "The advisor who takes your first call handles your site visits, negotiation, paperwork and possession — no handoffs.",
   },
   {
+    icon: "ready",
     title: "Post-possession continuity",
     body: "Leasing, tenant management and resale execution long after the commission has been paid.",
   },
@@ -597,17 +603,58 @@ export type PropertyTypeTile = {
   label: string;
   href: string;
   icon: string;
+  image: string;
 };
 
 export const PROPERTY_TYPE_TILES: PropertyTypeTile[] = [
-  { label: "Branded Residences", href: "/projects?category=residential&minPrice=50000000", icon: "penthouse" },
-  { label: "Under Construction", href: "/projects?status=under-construction", icon: "construction" },
-  { label: "Ready To Move", href: "/projects?status=ready-to-move", icon: "ready" },
-  { label: "Highrise Apartment", href: "/projects?propertyType=apartment", icon: "apartment" },
-  { label: "Independent Builder Floors", href: "/projects?propertyType=independent-floor", icon: "floors" },
-  { label: "Residential Plot", href: "/projects?category=residential&q=plot", icon: "plot" },
-  { label: "Commercial Plot", href: "/projects?propertyType=sco-plots", icon: "sco" },
-  { label: "Low Rise Floors", href: "/projects?propertyType=independent-floor", icon: "township" },
+  {
+    label: "Branded Residences",
+    href: "/projects?category=residential&minPrice=50000000",
+    icon: "penthouse",
+    image: "/projects/tulip-monsella-sector-53-gurgaon-premium-3-4-bhk-apartments/03.webp",
+  },
+  {
+    label: "Under Construction",
+    href: "/projects?status=under-construction",
+    icon: "construction",
+    image: "/projects/smart-world-one-dxp-sector-113-gurgaon/01.jpg",
+  },
+  {
+    label: "Ready To Move",
+    href: "/projects?status=ready-to-move",
+    icon: "ready",
+    image: "/projects/elan-the-presidential-gurgaon/02.jpg",
+  },
+  {
+    label: "Highrise Apartment",
+    href: "/projects?propertyType=apartment",
+    icon: "apartment",
+    image: "/projects/sobha-aranya-sector-80-gurgaon-luxury-apartments-modern-living/02.jpg",
+  },
+  {
+    label: "Independent Builder Floors",
+    href: "/projects?propertyType=independent-floor",
+    icon: "floors",
+    image: "/projects/ss-linden-floors-sector-84-gurgaon/01.jpg",
+  },
+  {
+    label: "Residential Plot",
+    href: "/projects?category=residential&q=plot",
+    icon: "plot",
+    image: "/projects/godrej-vrikshya-gurgaon-luxury-3-4-bhk-homes/02.jpg",
+  },
+  {
+    label: "Commercial Plot",
+    href: "/projects?propertyType=sco-plots",
+    icon: "sco",
+    image: "/projects/aipl-joy-district-gurgaon/01.jpg",
+  },
+  {
+    label: "Low Rise Floors",
+    href: "/projects?propertyType=independent-floor",
+    icon: "township",
+    image: "/projects/bptp-gaia-residences-sector-102-gurgaon-luxury-3-bhk-apartments/02.webp",
+  },
 ];
 
 /* ------------------------------------------------------------------ *
@@ -669,24 +716,28 @@ export const CURATED_COLLECTIONS: Collection[] = [
  * filtered results; the rest invite an enquiry rather than showing a
  * fake options count.
  * ------------------------------------------------------------------ */
+export type CityArt = "towers" | "domes" | "bridge" | "coast";
+
 export type FeaturedCity = {
   name: string;
   /** matches Project.city for inventory lookup */
   matchCity?: string;
   /** two-colour gradient for the card, on-brand */
   gradient: string;
+  /** which original silhouette illustration to layer on the card */
+  art: CityArt;
 };
 
 export const FEATURED_CITIES: FeaturedCity[] = [
-  { name: "Gurugram", matchCity: "Gurugram", gradient: "from-brand-700 to-brand-900" },
-  { name: "New Delhi", matchCity: "New Delhi", gradient: "from-ink-700 to-ink-950" },
-  { name: "Noida", gradient: "from-emerald-700 to-emerald-900" },
-  { name: "Pune", gradient: "from-teal-700 to-teal-900" },
-  { name: "Hyderabad", gradient: "from-ink-600 to-ink-900" },
-  { name: "Bangalore", gradient: "from-brand-600 to-brand-800" },
-  { name: "Chennai", gradient: "from-cyan-700 to-cyan-900" },
-  { name: "Mumbai", gradient: "from-ink-700 to-brand-900" },
-  { name: "Goa", gradient: "from-teal-600 to-emerald-800" },
-  { name: "Lucknow", gradient: "from-amber-700 to-ink-800" },
-  { name: "Kolkata", gradient: "from-ink-600 to-ink-800" },
+  { name: "Gurugram", matchCity: "Gurugram", gradient: "from-brand-700 to-brand-900", art: "towers" },
+  { name: "New Delhi", matchCity: "New Delhi", gradient: "from-ink-700 to-ink-950", art: "domes" },
+  { name: "Noida", gradient: "from-emerald-700 to-emerald-900", art: "towers" },
+  { name: "Pune", gradient: "from-teal-700 to-teal-900", art: "towers" },
+  { name: "Hyderabad", gradient: "from-ink-600 to-ink-900", art: "domes" },
+  { name: "Bangalore", gradient: "from-brand-600 to-brand-800", art: "towers" },
+  { name: "Chennai", gradient: "from-cyan-700 to-cyan-900", art: "coast" },
+  { name: "Mumbai", gradient: "from-ink-700 to-brand-900", art: "bridge" },
+  { name: "Goa", gradient: "from-teal-600 to-emerald-800", art: "coast" },
+  { name: "Lucknow", gradient: "from-amber-700 to-ink-800", art: "domes" },
+  { name: "Kolkata", gradient: "from-ink-600 to-ink-800", art: "bridge" },
 ];

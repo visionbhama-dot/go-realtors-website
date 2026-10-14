@@ -236,6 +236,21 @@ export async function Footer() {
           </div>
         </div>
       </div>
+
+      {/* ---- design credit ---- */}
+      <div className="border-t border-white/10 bg-ink-950">
+        <div className="shell py-4 text-center text-[0.75rem] text-white/45">
+          Designed &amp; developed by{" "}
+          <a
+            href="https://bhamavision.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-white/70 transition-colors hover:text-brand-400"
+          >
+            Bhama Vision
+          </a>
+        </div>
+      </div>
     </footer>
   );
 }
