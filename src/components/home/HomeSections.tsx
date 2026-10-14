@@ -10,40 +10,42 @@ import {
 } from "@/data/content";
 
 /* ---------------------------------------------------------------- *
- * Browse by property type — image cards (reference image 1)
+ * Browse by property type — circular image thumbnails in a row.
+ * Deliberately distinct from the rectangular Curated Collection tiles.
  * ---------------------------------------------------------------- */
 export function PropertyTypeStrip() {
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+    <ul className="grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-4 lg:grid-cols-8">
       {PROPERTY_TYPE_TILES.map((t, i) => (
-        <Link
-          key={t.label}
-          href={t.href}
-          className="group relative isolate flex aspect-[5/4] flex-col justify-end overflow-hidden rounded-lg bg-ink-900"
-        >
-          <Image
-            src={t.image}
-            alt={t.label}
-            fill
-            sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 25vw"
-            priority={i < 4}
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/35 to-ink-950/5 transition-colors group-hover:from-ink-950/95"
-          />
-          <div className="relative p-4">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur transition-colors group-hover:bg-brand-600">
-              <NavIcon name={t.icon as NavIconKey} className="h-4.5 w-4.5" />
+        <li key={t.label}>
+          <Link
+            href={t.href}
+            className="group flex flex-col items-center gap-3 text-center"
+          >
+            <span className="relative block aspect-square w-full max-w-[7rem] overflow-hidden rounded-full ring-2 ring-ink-200 ring-offset-2 transition-all group-hover:ring-brand-500">
+              <Image
+                src={t.image}
+                alt={t.label}
+                fill
+                sizes="7rem"
+                priority={i < 4}
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <span
+                aria-hidden
+                className="absolute inset-0 bg-ink-950/15 transition-colors group-hover:bg-brand-900/25"
+              />
+              <span className="absolute bottom-1.5 right-1.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-brand-700 shadow-card backdrop-blur transition-colors group-hover:bg-brand-600 group-hover:text-white">
+                <NavIcon name={t.icon as NavIconKey} className="h-3.5 w-3.5" />
+              </span>
             </span>
-            <p className="mt-2.5 font-display text-[0.9375rem] font-bold leading-tight text-white drop-shadow">
+            <span className="text-[0.8125rem] font-bold leading-tight text-ink-800 transition-colors group-hover:text-brand-700">
               {t.label}
-            </p>
-          </div>
-        </Link>
+            </span>
+          </Link>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
@@ -110,11 +112,29 @@ export function FeaturedCities({
             <div
               className={`relative flex h-32 items-end overflow-hidden bg-gradient-to-br ${city.gradient} p-3`}
             >
-              <div aria-hidden className="absolute inset-0 grain opacity-30" />
-              <CitySkyline
-                variant={city.art}
-                className="absolute inset-x-0 bottom-0 h-20 w-full text-white/25"
-              />
+              {city.image ? (
+                <>
+                  <Image
+                    src={city.image}
+                    alt={city.name}
+                    fill
+                    sizes="(max-width:640px) 50vw, (max-width:1280px) 33vw, 16rem"
+                    className="object-cover"
+                  />
+                  <span
+                    aria-hidden
+                    className="absolute inset-0 bg-gradient-to-t from-ink-950/80 via-ink-950/20 to-transparent"
+                  />
+                </>
+              ) : (
+                <>
+                  <div aria-hidden className="absolute inset-0 grain opacity-30" />
+                  <CitySkyline
+                    variant={city.art}
+                    className="absolute inset-x-0 bottom-0 h-20 w-full text-white/25"
+                  />
+                </>
+              )}
               <span className="relative font-display text-[1.0625rem] font-bold text-white drop-shadow">
                 {city.name}
               </span>

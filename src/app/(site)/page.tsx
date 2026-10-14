@@ -39,8 +39,7 @@ import {
   SERVICES,
   WHY_CHOOSE,
 } from "@/data/content";
-import { getPosts, getTeam, getTestimonials } from "@/lib/repo/content";
-import { Leadership } from "@/components/home/Leadership";
+import { getPosts, getTestimonials } from "@/lib/repo/content";
 import {
   getAllProjects,
   getDevelopers,
@@ -88,7 +87,6 @@ export default async function HomePage() {
       buildSearchIndex(),
     ]);
 
-  const team = await getTeam();
 
   const heroStats = [
     { value: String(projects.length), label: "Live projects" },
@@ -418,36 +416,38 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ================= LEADERSHIP ================= */}
-      {team.length > 0 && (
-        <section className="shell py-16 lg:py-24">
-          <SectionHeading
-            eyebrow="Leadership"
-            title="The people behind GoRealtors"
-            description="A founder-led advisory. The person who takes your first call is accountable for your file through to registry."
-            action={{ label: "Meet the full team", href: "/team" }}
-          />
-          <div className="mx-auto mt-10 max-w-3xl">
-            <Leadership members={team} />
-          </div>
+      {/* ================= TEAM ================= */}
+      <section className="shell py-16 lg:py-24">
+        <SectionHeading
+          align="center"
+          eyebrow="Our team"
+          title="The people behind GoRealtors"
+          description="A founder-led advisory of specialists across luxury residential, commercial investment and NRI mandates — accountable from your first call through to registry."
+        />
 
-          {/* full team group photo */}
-          <figure className="relative mt-10 overflow-hidden rounded-lg bg-ink-100">
-            <Image
-              src="/team/leadership-group.jpg"
-              alt="The GoRealtors team"
-              width={1800}
-              height={1013}
-              sizes="(max-width:1280px) 100vw, 80rem"
-              className="h-auto w-full object-cover"
-            />
-            <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950/80 to-transparent p-5 text-[0.8125rem] font-semibold text-white">
-              One team, accountable end to end — from your first call to registry
-              and beyond.
-            </figcaption>
-          </figure>
-        </section>
-      )}
+        {/* full team group photo */}
+        <figure className="relative mt-10 overflow-hidden rounded-lg bg-ink-100">
+          <Image
+            src="/team/leadership-group.jpg"
+            alt="The GoRealtors team"
+            width={1800}
+            height={1013}
+            sizes="(max-width:1280px) 100vw, 80rem"
+            className="h-auto w-full object-cover"
+          />
+          <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950/85 to-transparent p-5 pt-16 text-center text-[0.875rem] font-semibold text-white sm:text-[0.9375rem]">
+            One team, accountable end to end — from your first call to registry
+            and beyond.
+          </figcaption>
+        </figure>
+
+        <div className="mt-8 flex justify-center">
+          <Link href="/team" className="btn btn-primary btn-lg">
+            Meet the team
+            <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
+          </Link>
+        </div>
+      </section>
 
       {/* ================= SPOTLIGHT ================= */}
       {spotlight.length > 0 && (
