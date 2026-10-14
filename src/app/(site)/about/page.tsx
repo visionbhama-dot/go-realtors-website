@@ -108,7 +108,7 @@ export default async function AboutPage() {
                 follows a client who was advised honestly.
               </blockquote>
               <figcaption className="mt-3 text-[0.8125rem] text-ink-500">
-                Tarun Bhalla — Founder, GoRealtors
+                Tarun Gaur — Founder & Managing Director, GoRealtors
               </figcaption>
             </figure>
           </div>

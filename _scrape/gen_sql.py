@@ -55,9 +55,11 @@ def grab_const(name):
 const fs = require('fs');
 let src = fs.readFileSync({json.dumps(os.path.join(WEB, 'src/data/content.ts'))}, 'utf8');
 src = src.replace(/^import[^;]*?;$/gms, '');
+// cut everything from the derived maps onward BEFORE rewriting exports, so
+// trailing `export type`/`export const` additions never reach eval()
+src = src.split('export const DEVELOPER_BY_NAME')[0];
 src = src.replace(/export const /g, 'const ');
 src = src.replace(/: (?:Developer|Locality|ServiceItem|TeamMember|Testimonial|Faq)\\[\\] =/g, ' =');
-src = src.split('export const DEVELOPER_BY_NAME')[0];
 eval(src + ';process.stdout.write(JSON.stringify({name}));');
 """
     out = subprocess.run(["node", "-e", script], capture_output=True, text=True, cwd=WEB)
@@ -201,12 +203,12 @@ A("")
 A("-- -------------------------------------------------------------- team")
 for i, m in enumerate(team):
     A(
-        "insert into team_members (slug, name, role_title, bio, focus, email, phone, sort_order, state) values\n"
+        "insert into team_members (slug, name, role_title, bio, focus, email, phone, photo_url, sort_order, state) values\n"
         f"  ({q(m['slug'])}, {q(m['name'])}, {q(m['role'])}, {q(m['bio'])}, {q(m['focus'])},\n"
-        f"   {q(m.get('email'))}, {q(m.get('phone'))}, {i}, 'published')\n"
+        f"   {q(m.get('email'))}, {q(m.get('phone'))}, {q(m.get('photoUrl'))}, {i}, 'published')\n"
         "on conflict (slug) do update set name = excluded.name, role_title = excluded.role_title,\n"
         "  bio = excluded.bio, focus = excluded.focus, email = excluded.email,\n"
-        "  phone = excluded.phone, sort_order = excluded.sort_order;"
+        "  phone = excluded.phone, photo_url = excluded.photo_url, sort_order = excluded.sort_order;"
     )
 A("")
 

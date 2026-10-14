@@ -423,9 +423,25 @@ export default async function HomePage() {
             description="A founder-led advisory. The person who takes your first call is accountable for your file through to registry."
             action={{ label: "Meet the full team", href: "/team" }}
           />
-          <div className="mt-10">
+          <div className="mx-auto mt-10 max-w-3xl">
             <Leadership members={team} />
           </div>
+
+          {/* full team group photo */}
+          <figure className="relative mt-10 overflow-hidden rounded-lg bg-ink-100">
+            <Image
+              src="/team/leadership-group.jpg"
+              alt="The GoRealtors team"
+              width={1800}
+              height={1013}
+              sizes="(max-width:1280px) 100vw, 80rem"
+              className="h-auto w-full object-cover"
+            />
+            <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950/80 to-transparent p-5 text-[0.8125rem] font-semibold text-white">
+              One team, accountable end to end — from your first call to registry
+              and beyond.
+            </figcaption>
+          </figure>
         </section>
       )}
 

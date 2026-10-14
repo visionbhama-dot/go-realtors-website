@@ -13,7 +13,7 @@ export function Leadership({ members }: { members: TeamMember[] }) {
   if (members.length === 0) return null;
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 sm:grid-cols-2">
       {members.map((m) => (
         <article
           key={m.slug}

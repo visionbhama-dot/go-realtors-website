@@ -464,14 +464,25 @@ export const WHY_CHOOSE = [
  * ------------------------------------------------------------------ */
 export const TEAM: TeamMember[] = [
   {
-    slug: "tarun-bhalla",
-    name: "Tarun Bhalla",
-    role: "Founder & Principal Advisor",
-    bio: "Tarun founded GoRealtors to replace brochure-led broking with advisory that starts from the client's balance sheet. He leads developer relationships and personally handles luxury and commercial mandates across Gurugram.",
+    slug: "tarun-gaur",
+    name: "Tarun Gaur",
+    role: "Founder & Managing Director",
+    bio: "Tarun leads GoRealtors with an advisory-first approach: match families and investors to the right property, back every recommendation with the numbers, and stay accountable from the first call through to registry. He personally handles luxury residential and commercial mandates across Gurugram.",
     focus: "Luxury residential, commercial investment, NRI mandates",
     email: "tarun.gorealtors@gmail.com",
     phone: "+919560627388",
-    initials: "TB",
+    photoUrl: "/team/tarun-gaur-founder.jpg",
+    initials: "TG",
+  },
+  {
+    slug: "suraj",
+    name: "Suraj",
+    role: "Chief Executive Officer",
+    bio: "Suraj runs operations and execution at GoRealtors — building the advisory bench, the developer relationships and the process discipline that keeps every client file moving from discovery through to possession.",
+    focus: "Operations, developer relations, client delivery",
+    email: "tarun.gorealtors@gmail.com",
+    photoUrl: "/team/suraj-ceo.jpg",
+    initials: "S",
   },
 ];
 
