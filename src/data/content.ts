@@ -726,11 +726,25 @@ export type FeaturedCity = {
   gradient: string;
   /** which original silhouette illustration to layer on the card */
   art: CityArt;
+  /** real photo for cities we operate in; others use the gradient + silhouette */
+  image?: string;
 };
 
 export const FEATURED_CITIES: FeaturedCity[] = [
-  { name: "Gurugram", matchCity: "Gurugram", gradient: "from-brand-700 to-brand-900", art: "towers" },
-  { name: "New Delhi", matchCity: "New Delhi", gradient: "from-ink-700 to-ink-950", art: "domes" },
+  {
+    name: "Gurugram",
+    matchCity: "Gurugram",
+    gradient: "from-brand-700 to-brand-900",
+    art: "towers",
+    image: "/projects/smart-world-one-dxp-sector-113-gurgaon/01.jpg",
+  },
+  {
+    name: "New Delhi",
+    matchCity: "New Delhi",
+    gradient: "from-ink-700 to-ink-950",
+    art: "domes",
+    image: "/projects/the-omaxe-state-sector-19b-dwarka/01.jpg",
+  },
   { name: "Noida", gradient: "from-emerald-700 to-emerald-900", art: "towers" },
   { name: "Pune", gradient: "from-teal-700 to-teal-900", art: "towers" },
   { name: "Hyderabad", gradient: "from-ink-600 to-ink-900", art: "domes" },
