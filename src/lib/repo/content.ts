@@ -70,20 +70,50 @@ export async function getTeam(): Promise<TeamMember[]> {
       .eq("state", "published")
       .order("sort_order");
     if (!error && data?.length) {
-      return data.map((m) => ({
-        slug: String(m.slug),
-        name: String(m.name),
-        role: (m.role_title as string) ?? "",
-        bio: (m.bio as string) ?? "",
-        focus: (m.focus as string) ?? "",
-        email: (m.email as string) ?? undefined,
-        phone: (m.phone as string) ?? undefined,
-        photoUrl: (m.photo_url as string) ?? undefined,
-        initials: initialsOf(String(m.name)),
-      }));
+      return data.map((m) => {
+        const rawName = String(m.name);
+        // Defensive overlay: older seed rows may lack photo_url or still
+        // carry the placeholder founder name. Patch them so the live site
+        // renders the leaders correctly even before the DB is re-seeded.
+        const patch = teamOverlay(rawName, String(m.slug));
+        return {
+          slug: String(m.slug),
+          name: patch.name ?? rawName,
+          role: (m.role_title as string) || (patch.role ?? ""),
+          bio: (m.bio as string) ?? "",
+          focus: (m.focus as string) ?? "",
+          email: (m.email as string) ?? undefined,
+          phone: (m.phone as string) ?? undefined,
+          photoUrl: (m.photo_url as string) || patch.photoUrl,
+          initials: initialsOf(patch.name ?? rawName),
+        };
+      });
     }
   }
   return TEAM;
+}
+
+/** Known leaders -> correct name / role / photo, keyed by name or slug. */
+function teamOverlay(
+  name: string,
+  slug: string,
+): { name?: string; role?: string; photoUrl?: string } {
+  const key = `${name} ${slug}`.toLowerCase();
+  if (key.includes("tarun") || key.includes("gaur") || key.includes("bhalla")) {
+    return {
+      name: "Tarun Gaur",
+      role: "Founder & Managing Director",
+      photoUrl: "/team/tarun-gaur-founder.jpg",
+    };
+  }
+  if (key.includes("suraj") || key.includes("ceo")) {
+    return {
+      name: "Suraj",
+      role: "Chief Executive Officer",
+      photoUrl: "/team/suraj-ceo.jpg",
+    };
+  }
+  return {};
 }
 
 /* ----------------------------------------------------- testimonials */
