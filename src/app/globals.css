@@ -356,6 +356,24 @@
   }
 }
 
+@keyframes caret {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-caret {
+  animation: caret 1s step-end infinite;
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);

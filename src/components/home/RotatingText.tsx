@@ -73,8 +73,8 @@ export function RotatingText({
       {text || "\u00A0"}
       <span
         aria-hidden
-        className="ml-0.5 inline-block w-[2px] animate-pulse self-stretch bg-current align-middle"
-        style={{ height: "0.9em" }}
+        className="ml-1 inline-block w-[3px] translate-y-[0.08em] animate-caret rounded-sm bg-current align-middle"
+        style={{ height: "0.95em" }}
       />
     </span>
   );
