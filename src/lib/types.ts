@@ -41,6 +41,7 @@ export type Project = {
   amenities: string[];
   configurations: Configuration[];
   floorPlanNote: string | null;
+  videoUrl: string | null;
   whyInvest: string[];
   locationAdvantages: string[];
   faqs: Faq[];
@@ -93,6 +94,7 @@ export type TeamMember = {
   focus: string;
   email?: string;
   phone?: string;
+  photoUrl?: string;
   initials: string;
 };
 

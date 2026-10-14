@@ -51,6 +51,7 @@ function mapProject(r: Row): Project {
     whyInvest: arr(r.why_invest),
     locationAdvantages: arr(r.location_advantages),
     floorPlanNote: (r.floor_plan_note as string) ?? null,
+    videoUrl: (r.video_url as string) ?? null,
     images: arr(r.images),
     imageAlts: arr(r.image_alts),
     configurations: cfgs

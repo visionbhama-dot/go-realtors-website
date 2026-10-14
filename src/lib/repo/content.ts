@@ -78,6 +78,7 @@ export async function getTeam(): Promise<TeamMember[]> {
         focus: (m.focus as string) ?? "",
         email: (m.email as string) ?? undefined,
         phone: (m.phone as string) ?? undefined,
+        photoUrl: (m.photo_url as string) ?? undefined,
         initials: initialsOf(String(m.name)),
       }));
     }

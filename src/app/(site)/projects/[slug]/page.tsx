@@ -17,6 +17,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { ProjectGallery } from "@/components/project/ProjectGallery";
+import { ProjectVideo } from "@/components/project/ProjectVideo";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
@@ -314,6 +315,16 @@ export default async function ProjectPage({
                 </div>
               ))}
             </dl>
+
+            {/* walkthrough video — rendered just before the overview */}
+            {project.videoUrl && (
+              <section className="mt-10">
+                <SectionTitle eyebrow="Video" title="Project walkthrough" />
+                <div className="mt-5">
+                  <ProjectVideo url={project.videoUrl} title={project.name} />
+                </div>
+              </section>
+            )}
 
             {/* overview */}
             <section id="overview" className="mt-12 scroll-mt-[11rem]">

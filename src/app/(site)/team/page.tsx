@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
@@ -41,9 +42,19 @@ export default async function TeamPage() {
           {team.map((m) => (
             <article key={m.slug} className="card flex flex-col p-6">
               <div className="flex items-start gap-4">
-                <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-sm bg-ink-950 font-display text-[1.125rem] font-extrabold text-brand-400">
-                  {m.initials}
-                </span>
+                {m.photoUrl ? (
+                  <Image
+                    src={m.photoUrl}
+                    alt={`${m.name} — ${m.role}`}
+                    width={56}
+                    height={56}
+                    className="h-14 w-14 shrink-0 rounded-sm object-cover object-top"
+                  />
+                ) : (
+                  <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-sm bg-ink-950 font-display text-[1.125rem] font-extrabold text-brand-400">
+                    {m.initials}
+                  </span>
+                )}
                 <div className="min-w-0">
                   <h2 className="font-display text-[1.0625rem] font-bold leading-snug">
                     {m.name}

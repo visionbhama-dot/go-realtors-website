@@ -35,7 +35,7 @@ const GROUPS: { group: string; title: string; description: string; fields: Setti
       {
         name: "whatsapp",
         label: "WhatsApp number",
-        hint: "Digits only, with country code, e.g. 919610630151.",
+        hint: "Digits only, with country code, e.g. 919560627388.",
         fallback: SITE.whatsapp,
       },
       { name: "email", label: "Primary email", type: "email", fallback: SITE.email },
