@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Typewriter effect for the emphasised tail of the hero headline: types a
@@ -24,44 +24,34 @@ export function RotatingText({
   const [phase, setPhase] = useState<"typing" | "holding" | "deleting">(
     "typing",
   );
-  const reduceMotion = useRef(false);
-
-  useEffect(() => {
-    reduceMotion.current =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
 
   useEffect(() => {
     const current = words[wordIndex] ?? "";
-
-    // honour reduced-motion: just show the full word, swap on hold
-    if (reduceMotion.current) {
-      setText(current);
-      const id = setTimeout(
-        () => setWordIndex((i) => (i + 1) % words.length),
-        holdTime + 600,
-      );
-      return () => clearTimeout(id);
-    }
-
     let id: ReturnType<typeof setTimeout>;
 
     if (phase === "typing") {
       if (text.length < current.length) {
-        id = setTimeout(() => setText(current.slice(0, text.length + 1)), typeSpeed);
+        // add one more character
+        id = setTimeout(
+          () => setText(current.slice(0, text.length + 1)),
+          typeSpeed,
+        );
       } else {
-        id = setTimeout(() => setPhase("holding"), holdTime);
+        // whole word typed — pause before deleting
+        id = setTimeout(() => setPhase("deleting"), holdTime);
       }
-    } else if (phase === "holding") {
-      id = setTimeout(() => setPhase("deleting"), 200);
     } else {
+      // deleting
       if (text.length > 0) {
-        id = setTimeout(() => setText(current.slice(0, text.length - 1)), deleteSpeed);
+        id = setTimeout(
+          () => setText(current.slice(0, text.length - 1)),
+          deleteSpeed,
+        );
       } else {
+        // move to the next word and start typing again
         setWordIndex((i) => (i + 1) % words.length);
         setPhase("typing");
-        id = setTimeout(() => {}, 0);
+        id = setTimeout(() => {}, 60);
       }
     }
 
