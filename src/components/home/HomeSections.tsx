@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { NavIcon, type NavIconKey } from "@/components/layout/navIcons";
+import { CitySkyline } from "@/components/home/CitySkyline";
 import {
   CURATED_COLLECTIONS,
   FEATURED_CITIES,
@@ -9,23 +10,37 @@ import {
 } from "@/data/content";
 
 /* ---------------------------------------------------------------- *
- * Browse by property type — the icon strip (reference image 1)
+ * Browse by property type — image cards (reference image 1)
  * ---------------------------------------------------------------- */
 export function PropertyTypeStrip() {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
-      {PROPERTY_TYPE_TILES.map((t) => (
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+      {PROPERTY_TYPE_TILES.map((t, i) => (
         <Link
           key={t.label}
           href={t.href}
-          className="group flex flex-col items-center justify-start gap-3 rounded-lg border border-ink-200 bg-white px-3 py-5 text-center transition-all hover:-translate-y-0.5 hover:border-brand-400 hover:shadow-lift"
+          className="group relative isolate flex aspect-[5/4] flex-col justify-end overflow-hidden rounded-lg bg-ink-900"
         >
-          <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-brand-50 text-brand-700 transition-colors group-hover:bg-brand-600 group-hover:text-white">
-            <NavIcon name={t.icon as NavIconKey} className="h-5.5 w-5.5" />
-          </span>
-          <span className="text-[0.8125rem] font-bold leading-tight text-ink-800 group-hover:text-brand-800">
-            {t.label}
-          </span>
+          <Image
+            src={t.image}
+            alt={t.label}
+            fill
+            sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 25vw"
+            priority={i < 4}
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/35 to-ink-950/5 transition-colors group-hover:from-ink-950/95"
+          />
+          <div className="relative p-4">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur transition-colors group-hover:bg-brand-600">
+              <NavIcon name={t.icon as NavIconKey} className="h-4.5 w-4.5" />
+            </span>
+            <p className="mt-2.5 font-display text-[0.9375rem] font-bold leading-tight text-white drop-shadow">
+              {t.label}
+            </p>
+          </div>
         </Link>
       ))}
     </div>
@@ -93,9 +108,13 @@ export function FeaturedCities({
             className="group overflow-hidden rounded-lg border border-ink-200 bg-white transition-all hover:-translate-y-0.5 hover:shadow-lift"
           >
             <div
-              className={`relative flex h-28 items-end bg-gradient-to-br ${city.gradient} p-3`}
+              className={`relative flex h-32 items-end overflow-hidden bg-gradient-to-br ${city.gradient} p-3`}
             >
-              <div aria-hidden className="absolute inset-0 grain opacity-40" />
+              <div aria-hidden className="absolute inset-0 grain opacity-30" />
+              <CitySkyline
+                variant={city.art}
+                className="absolute inset-x-0 bottom-0 h-20 w-full text-white/25"
+              />
               <span className="relative font-display text-[1.0625rem] font-bold text-white drop-shadow">
                 {city.name}
               </span>
