@@ -70,27 +70,69 @@ export async function getTeam(): Promise<TeamMember[]> {
       .eq("state", "published")
       .order("sort_order");
     if (!error && data?.length) {
-      return data.map((m) => {
+      const fromDb = data.map((m) => {
         const rawName = String(m.name);
         // Defensive overlay: older seed rows may lack photo_url or still
         // carry the placeholder founder name. Patch them so the live site
         // renders the leaders correctly even before the DB is re-seeded.
         const patch = teamOverlay(rawName, String(m.slug));
+        const name = patch.name ?? rawName;
         return {
           slug: String(m.slug),
-          name: patch.name ?? rawName,
+          name,
           role: (m.role_title as string) || (patch.role ?? ""),
           bio: (m.bio as string) ?? "",
           focus: (m.focus as string) ?? "",
           email: (m.email as string) ?? undefined,
           phone: (m.phone as string) ?? undefined,
           photoUrl: (m.photo_url as string) || patch.photoUrl,
-          initials: initialsOf(patch.name ?? rawName),
-        };
+          initials: initialsOf(name),
+        } satisfies TeamMember;
       });
+
+      // Merge the bundled leaders in so they ALWAYS appear even when the DB
+      // only carries a subset (e.g. the CEO row was never seeded). Dedupe by a
+      // canonical identity so a stale founder/CEO DB row isn't shown twice.
+      const seen = new Map<string, TeamMember>();
+      for (const m of fromDb) seen.set(teamKey(m.name, m.slug), m);
+
+      const ordered: TeamMember[] = [];
+      // Canonical leaders first, in bundled order, preferring DB data if present.
+      for (const leader of TEAM) {
+        const key = teamKey(leader.name, leader.slug);
+        const existing = seen.get(key);
+        if (existing) {
+          ordered.push({
+            ...leader,
+            ...Object.fromEntries(
+              Object.entries(existing).filter(([, v]) => v != null && v !== ""),
+            ),
+          } as TeamMember);
+          seen.delete(key);
+        } else {
+          ordered.push(leader);
+        }
+      }
+      // Any remaining DB-managed members (other staff) keep their DB order.
+      for (const m of fromDb) {
+        const key = teamKey(m.name, m.slug);
+        if (seen.has(key)) {
+          ordered.push(m);
+          seen.delete(key);
+        }
+      }
+      return ordered;
     }
   }
   return TEAM;
+}
+
+/** Canonical identity for a team member, collapsing leader aliases. */
+function teamKey(name: string, slug: string): string {
+  const k = `${name} ${slug}`.toLowerCase();
+  if (k.includes("tarun") || k.includes("gaur") || k.includes("bhalla")) return "tarun-gaur";
+  if (k.includes("suraj") || k.includes("ceo")) return "suraj";
+  return slug.toLowerCase();
 }
 
 /** Known leaders -> correct name / role / photo, keyed by name or slug. */

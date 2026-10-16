@@ -79,13 +79,11 @@ export default async function ProjectsPage({
       />
 
       <section className="shell py-10 lg:py-14">
-        <div className="grid gap-8 lg:grid-cols-[17rem_1fr] lg:gap-10">
-          <ProjectFilters
-            facets={facets}
-            total={all.length}
-            showing={results.length}
-          />
-
+        <ProjectFilters
+          facets={facets}
+          total={all.length}
+          showing={results.length}
+        >
           <div>
             {slice.length === 0 ? (
               <div className="card flex flex-col items-center px-6 py-16 text-center">
@@ -181,7 +179,7 @@ export default async function ProjectsPage({
               </div>
             </div>
           </div>
-        </div>
+        </ProjectFilters>
       </section>
 
       <StickyCta />

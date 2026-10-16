@@ -39,7 +39,7 @@ import {
   SERVICES,
   WHY_CHOOSE,
 } from "@/data/content";
-import { getPosts, getTestimonials } from "@/lib/repo/content";
+import { getPosts, getSettings, getTestimonials } from "@/lib/repo/content";
 import {
   getAllProjects,
   getDevelopers,
@@ -77,6 +77,7 @@ export default async function HomePage() {
     testimonials,
     posts,
     searchIndex,
+    settings,
   ] = await Promise.all([
       getAllProjects(),
       getLocalities(),
@@ -85,7 +86,22 @@ export default async function HomePage() {
       getTestimonials(),
       getPosts(),
       buildSearchIndex(),
+      getSettings(),
     ]);
+
+  // Editable homepage copy (admin → Site settings → Homepage content).
+  // Falls back to the built-in default whenever a setting is blank/unset.
+  const copy = (name: string, fallback: string) => {
+    const v = settings[`home.${name}`];
+    return typeof v === "string" && v.trim() ? v.trim() : fallback;
+  };
+  const heroWords = copy(
+    "hero_words",
+    "Gurugram\nNew Delhi\nDwarka Expressway\nGolf Course Road\nNoida\npopular localities",
+  )
+    .split("\n")
+    .map((w) => w.trim())
+    .filter(Boolean);
 
 
   const heroStats = [
@@ -133,23 +149,17 @@ export default async function HomePage() {
         />
 
         <div className="shell relative py-16 text-center sm:py-20 lg:py-24">
-          <h1 className="mx-auto flex max-w-4xl flex-col items-center font-display text-[2.25rem] font-extrabold leading-[1.1] text-white sm:text-[3rem] lg:text-[3.5rem]">
-            <span>Discover properties in</span>
-            <RotatingText
-              className="text-brand-400"
-              words={[
-                "Gurugram",
-                "New Delhi",
-                "Dwarka Expressway",
-                "Golf Course Road",
-                "Noida",
-                "popular localities",
-              ]}
-            />
+          <h1 className="mx-auto flex max-w-4xl flex-col items-center font-display text-[1.6rem] font-extrabold leading-[1.15] text-white sm:text-[3rem] sm:leading-[1.1] lg:text-[3.5rem]">
+            <span className="whitespace-nowrap">
+              {copy("hero_prefix", "Discover properties in")}
+            </span>
+            <RotatingText className="text-brand-400" words={heroWords} />
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-[1rem] leading-relaxed text-white/70 sm:text-[1.0625rem]">
-            We help you find your next home — RERA-verified projects, honest
-            numbers, and zero brokerage on new launches.
+          <p className="mx-auto mt-5 max-w-xl text-[0.9375rem] leading-relaxed text-white/70 sm:text-[1.0625rem]">
+            {copy(
+              "hero_subheading",
+              "We help you find your next home — RERA-verified projects and honest numbers.",
+            )}
           </p>
 
           <div className="mx-auto mt-9 max-w-2xl text-left">
@@ -219,8 +229,11 @@ export default async function HomePage() {
         <SectionHeading
           align="center"
           eyebrow="Explore by type"
-          title="What are you looking for?"
-          description="Jump straight to the kind of property you want — from branded residences to commercial plots."
+          title={copy("types_title", "What are you looking for?")}
+          description={copy(
+            "types_desc",
+            "Jump straight to the kind of property you want — from branded residences to commercial plots.",
+          )}
         />
         <div className="mt-10">
           <PropertyTypeStrip />
@@ -233,8 +246,11 @@ export default async function HomePage() {
           <SectionHeading
             align="center"
             eyebrow="Curated collections"
-            title="Prime properties, grouped for you"
-            description="Hand-picked shortlists based on how people actually search — stage, budget and format."
+            title={copy("curated_title", "Prime properties, grouped for you")}
+            description={copy(
+              "curated_desc",
+              "Hand-picked shortlists based on how people actually search — stage, budget and format.",
+            )}
           />
           <div className="mt-10">
             <CuratedCollections />
@@ -246,8 +262,11 @@ export default async function HomePage() {
       <section className="shell py-16 lg:py-24">
         <SectionHeading
           eyebrow="Trending projects"
-          title="The noteworthy real estate in Gurugram"
-          description="The projects drawing the most buyer interest this quarter."
+          title={copy("trending_title", "The noteworthy real estate in Gurugram")}
+          description={copy(
+            "trending_desc",
+            "The projects drawing the most buyer interest this quarter.",
+          )}
           action={{ label: "View all projects", href: "/projects" }}
         />
         <div className="mt-10">
@@ -309,8 +328,11 @@ export default async function HomePage() {
           <SectionHeading
             align="center"
             eyebrow="Featured cities"
-            title="Find your home in the city of your choice"
-            description="We're rooted in Gurugram and Delhi today, and expanding across India's major property markets. Tell us where you're looking and we'll source it."
+            title={copy("cities_title", "Find your home in the city of your choice")}
+            description={copy(
+              "cities_desc",
+              "We're rooted in Gurugram and Delhi today, and expanding across India's major property markets. Tell us where you're looking and we'll source it.",
+            )}
           />
           <div className="mt-10">
             <FeaturedCities cityCounts={cityCounts} />
@@ -383,8 +405,11 @@ export default async function HomePage() {
           <SectionHeading
             align="center"
             eyebrow="Why GoRealtors"
-            title="Why buy with us?"
-            description="The things that make GoRealtors a genuine advisory, not another listing desk."
+            title={copy("why_title", "Why buy with us?")}
+            description={copy(
+              "why_desc",
+              "The things that make GoRealtors a genuine advisory, not another listing desk.",
+            )}
           />
           <div className="mt-11 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {WHY_CHOOSE.map((w) => (

@@ -1,9 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 /**
- * Vector rebuild of the GoRealtors mark: an outlined house whose right wall
- * breaks away as a green blade, with a solid green arrow rising inside it.
+ * Compact vector mark used where the full lockup image is too large
+ * (e.g. the collapsed admin sidebar). The uploaded brand lockups are used
+ * for the public header/footer via the <Logo /> component below.
  */
 export function LogoMark({ className }: { className?: string }) {
   return (
@@ -29,44 +31,39 @@ export function LogoMark({ className }: { className?: string }) {
   );
 }
 
+/**
+ * Renders the uploaded GoRealtors brand lockup.
+ * - `variant="dark"` (default) → dark-text logo, for use on LIGHT backgrounds (header).
+ * - `variant="light"` → white logo, for use on DARK backgrounds (footer).
+ *
+ * `withTagline` is accepted for backwards compatibility but no longer changes
+ * the artwork, since the uploaded lockups already include the brand wordmark.
+ */
 export function Logo({
   variant = "dark",
   className,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   withTagline = true,
 }: {
   variant?: "dark" | "light";
   className?: string;
   withTagline?: boolean;
 }) {
-  const light = variant === "light";
+  const src = variant === "light" ? "/brand/logo-light.png" : "/brand/logo-dark.png";
   return (
     <Link
       href="/"
-      className={cn("group flex items-center gap-2.5", className)}
+      className={cn("group inline-flex items-center", className)}
       aria-label="GoRealtors home"
     >
-      <LogoMark className={cn("h-10 w-10 shrink-0", light ? "text-white" : "text-ink-950")} />
-      <span className="flex flex-col leading-none">
-        <span
-          className={cn(
-            "font-display text-[1.3rem] font-extrabold tracking-[-0.03em]",
-            light ? "text-white" : "text-ink-950",
-          )}
-        >
-          Go<span className="text-brand-500">Realtors</span>
-        </span>
-        {withTagline && (
-          <span
-            className={cn(
-              "mt-1 flex items-center gap-1.5 text-[0.5rem] font-bold uppercase tracking-[0.22em]",
-              light ? "text-white/60" : "text-ink-500",
-            )}
-          >
-            <span aria-hidden className={cn("h-px w-3", light ? "bg-white/40" : "bg-ink-300")} />
-            Let&apos;s Go Real
-          </span>
-        )}
-      </span>
+      <Image
+        src={src}
+        alt="GoRealtors"
+        width={500}
+        height={360}
+        priority
+        className="h-12 w-auto"
+      />
     </Link>
   );
 }

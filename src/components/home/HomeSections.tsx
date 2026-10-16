@@ -54,12 +54,12 @@ export function PropertyTypeStrip() {
  * ---------------------------------------------------------------- */
 export function CuratedCollections() {
   return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
       {CURATED_COLLECTIONS.map((c, i) => (
         <Link
           key={c.label}
           href={c.href}
-          className="group relative isolate flex aspect-[4/3] items-end overflow-hidden rounded-lg bg-ink-900"
+          className="group relative isolate flex aspect-[4/3] w-[72%] shrink-0 snap-start items-end overflow-hidden rounded-lg bg-ink-900 sm:w-auto sm:shrink"
         >
           <Image
             src={c.image}
@@ -96,7 +96,7 @@ export function FeaturedCities({
   cityCounts: Record<string, number>;
 }) {
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+    <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4 xl:grid-cols-6">
       {FEATURED_CITIES.map((city) => {
         const count = city.matchCity ? (cityCounts[city.matchCity] ?? 0) : 0;
         const href =
@@ -107,7 +107,7 @@ export function FeaturedCities({
           <Link
             key={city.name}
             href={href}
-            className="group overflow-hidden rounded-lg border border-ink-200 bg-white transition-all hover:-translate-y-0.5 hover:shadow-lift"
+            className="group w-[62%] shrink-0 snap-start overflow-hidden rounded-lg border border-ink-200 bg-white transition-all hover:-translate-y-0.5 hover:shadow-lift sm:w-auto sm:shrink"
           >
             <div
               className={`relative flex h-32 items-end overflow-hidden bg-gradient-to-br ${city.gradient} p-3`}

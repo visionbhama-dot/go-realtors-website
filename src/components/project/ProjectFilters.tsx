@@ -28,10 +28,12 @@ export function ProjectFilters({
   facets,
   total,
   showing,
+  children,
 }: {
   facets: Facets;
   total: number;
   showing: number;
+  children: React.ReactNode;
 }) {
   const router = useRouter();
   const params = useSearchParams();
@@ -305,26 +307,30 @@ export function ProjectFilters({
         </div>
       </div>
 
-      {/* ---- desktop sidebar ---- */}
-      <aside className="hidden lg:block">
-        <div className="card sticky top-28 max-h-[calc(100vh-9rem)] overflow-y-auto p-5">
-          <div className="mb-5 flex items-center justify-between">
-            <h2 className="font-display text-[0.9375rem] font-bold">
-              Refine results
-            </h2>
-            {activeChips.length > 0 && (
-              <button
-                type="button"
-                onClick={() => router.push("/projects", { scroll: false })}
-                className="text-[0.75rem] font-bold text-brand-700 hover:underline"
-              >
-                Reset
-              </button>
-            )}
+      {/* ---- layout: desktop sidebar + results ---- */}
+      <div className="lg:grid lg:grid-cols-[17rem_1fr] lg:gap-10">
+        <aside className="hidden lg:block">
+          <div className="card sticky top-28 max-h-[calc(100vh-9rem)] overflow-y-auto p-5">
+            <div className="mb-5 flex items-center justify-between">
+              <h2 className="font-display text-[0.9375rem] font-bold">
+                Refine results
+              </h2>
+              {activeChips.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => router.push("/projects", { scroll: false })}
+                  className="text-[0.75rem] font-bold text-brand-700 hover:underline"
+                >
+                  Reset
+                </button>
+              )}
+            </div>
+            {panel}
           </div>
-          {panel}
-        </div>
-      </aside>
+        </aside>
+
+        <div className="min-w-0">{children}</div>
+      </div>
 
       {/* ---- mobile drawer ---- */}
       {open && (
