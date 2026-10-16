@@ -20,6 +20,93 @@ type SettingDef = {
 
 const GROUPS: { group: string; title: string; description: string; fields: SettingDef[] }[] = [
   {
+    group: "home",
+    title: "Homepage content",
+    description:
+      "The headline, search prompt and section titles on the public homepage. Leave a field blank to use the built-in default.",
+    fields: [
+      {
+        name: "hero_prefix",
+        label: "Hero headline (first line)",
+        hint: "Kept on one line on mobile — keep it short.",
+        fallback: "Discover properties in",
+      },
+      {
+        name: "hero_words",
+        label: "Hero rotating words",
+        type: "textarea",
+        rows: 6,
+        hint: "One phrase per line. These rotate after the headline (e.g. Gurugram, New Delhi).",
+        fallback:
+          "Gurugram\nNew Delhi\nDwarka Expressway\nGolf Course Road\nNoida\npopular localities",
+      },
+      {
+        name: "hero_subheading",
+        label: "Hero sub-heading",
+        type: "textarea",
+        rows: 2,
+        fallback:
+          "We help you find your next home — RERA-verified projects and honest numbers.",
+      },
+      { name: "types_title", label: "Property types — title", fallback: "What are you looking for?" },
+      {
+        name: "types_desc",
+        label: "Property types — description",
+        type: "textarea",
+        rows: 2,
+        fallback:
+          "Jump straight to the kind of property you want — from branded residences to commercial plots.",
+      },
+      {
+        name: "curated_title",
+        label: "Curated collections — title",
+        fallback: "Prime properties, grouped for you",
+      },
+      {
+        name: "curated_desc",
+        label: "Curated collections — description",
+        type: "textarea",
+        rows: 2,
+        fallback:
+          "Hand-picked shortlists based on how people actually search — stage, budget and format.",
+      },
+      {
+        name: "trending_title",
+        label: "Trending projects — title",
+        fallback: "The noteworthy real estate in Gurugram",
+      },
+      {
+        name: "trending_desc",
+        label: "Trending projects — description",
+        type: "textarea",
+        rows: 2,
+        fallback: "The projects drawing the most buyer interest this quarter.",
+      },
+      {
+        name: "cities_title",
+        label: "Featured cities — title",
+        fallback: "Find your home in the city of your choice",
+      },
+      {
+        name: "cities_desc",
+        label: "Featured cities — description",
+        type: "textarea",
+        rows: 2,
+        fallback:
+          "We're rooted in Gurugram and Delhi today, and expanding across India's major property markets. Tell us where you're looking and we'll source it.",
+      },
+      { name: "why_title", label: "Why buy with us — title", fallback: "Why buy with us?" },
+      {
+        name: "why_desc",
+        label: "Why buy with us — description",
+        type: "textarea",
+        rows: 2,
+        fallback:
+          "The things that make GoRealtors a genuine advisory, not another listing desk.",
+      },
+    ],
+  },
+  {
     group: "contact",
     title: "Contact details",
     description:
