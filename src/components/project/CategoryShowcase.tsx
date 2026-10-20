@@ -4,6 +4,7 @@ import { ProjectCard } from "@/components/project/ProjectCard";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import type { Faq, Project } from "@/lib/types";
 
 /** Shared body for /residential and /commercial landing pages. */
@@ -73,11 +74,16 @@ export function CategoryShowcase({
                 eyebrow={`${g.items.length} ${g.items.length === 1 ? "project" : "projects"}`}
                 title={g.label}
               />
-              <div className="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <MobileCarousel
+                grid="sm:grid-cols-2 lg:grid-cols-3"
+                peek="lg"
+                gap="gap-6"
+                className="mt-9"
+              >
                 {g.items.map((p, i) => (
                   <ProjectCard key={p.slug} project={p} priority={gi === 0 && i < 3} />
                 ))}
-              </div>
+              </MobileCarousel>
             </div>
           </section>
         ))}

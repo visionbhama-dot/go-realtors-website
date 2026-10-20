@@ -95,6 +95,15 @@ const GROUPS: { group: string; title: string; description: string; fields: Setti
         fallback:
           "We're rooted in Gurugram and Delhi today, and expanding across India's major property markets. Tell us where you're looking and we'll source it.",
       },
+      {
+        name: "city_images",
+        label: "Featured city images",
+        type: "textarea",
+        rows: 7,
+        hint:
+          "One city per line as “City = image URL”, e.g. Mumbai = https://…/mumbai.jpg. " +
+          "Upload the photo under Media first, then paste its URL here. Cities left out keep the built-in illustrated artwork. Only use images you own or are licensed to use.",
+      },
       { name: "why_title", label: "Why buy with us — title", fallback: "Why buy with us?" },
       {
         name: "why_desc",
