@@ -20,6 +20,7 @@ export function PropertyTypeStrip() {
       grid="sm:grid-cols-4 lg:grid-cols-8"
       peek="xs"
       gap="gap-x-4 gap-y-7"
+      arrows
     >
       {PROPERTY_TYPE_TILES.map((t, i) => (
         <Link

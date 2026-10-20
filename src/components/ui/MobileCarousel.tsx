@@ -35,7 +35,7 @@ export function MobileCarousel({
   peek = "md",
   gap = "gap-4",
   as: Tag = "div",
-  arrows = true,
+  arrows = false,
   className,
 }: {
   children: React.ReactNode;
@@ -46,7 +46,10 @@ export function MobileCarousel({
   gap?: string;
   /** Render as a list when the content is semantically a list. */
   as?: "div" | "ul" | "ol";
-  /** Show the tap-to-scroll chevrons on mobile. */
+  /**
+   * Opt in to tap-to-scroll chevrons on mobile. Off by default — the peeking
+   * next card is usually hint enough, and chevrons on every row is noise.
+   */
   arrows?: boolean;
   className?: string;
 }) {
