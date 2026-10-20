@@ -18,6 +18,7 @@ import {
   Users,
 } from "lucide-react";
 import { HeroSearch } from "@/components/home/HeroSearch";
+import { HeroMedia } from "@/components/home/HeroMedia";
 import { PropertyShowcase } from "@/components/home/PropertyShowcase";
 import {
   CuratedCollections,
@@ -26,6 +27,9 @@ import {
 } from "@/components/home/HomeSections";
 import { TrendingProjects } from "@/components/home/TrendingProjects";
 import { RotatingText } from "@/components/home/RotatingText";
+import { MobileCarousel } from "@/components/ui/MobileCarousel";
+import { AutoCarousel, AutoSlide } from "@/components/ui/AutoCarousel";
+import { Counter } from "@/components/ui/Counter";
 import { NavIcon, type NavIconKey } from "@/components/layout/navIcons";
 import { buildSearchIndex } from "@/lib/search-index";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
@@ -103,6 +107,21 @@ export default async function HomePage() {
     .map((w) => w.trim())
     .filter(Boolean);
 
+  // Optional per-city image overrides, set from admin → Site settings →
+  // City images as "City Name = /path/or/url" lines.
+  const cityImages = Object.fromEntries(
+    copy("city_images", "")
+      .split("\n")
+      .map((line) => {
+        const i = line.indexOf("=");
+        if (i === -1) return null;
+        const name = line.slice(0, i).trim();
+        const url = line.slice(i + 1).trim();
+        return name && url ? ([name, url] as const) : null;
+      })
+      .filter((e): e is readonly [string, string] => e !== null),
+  );
+
 
   const heroStats = [
     { value: String(projects.length), label: "Live projects" },
@@ -131,21 +150,22 @@ export default async function HomePage() {
     <>
       {/* ================= HERO ================= */}
       <section className="relative isolate overflow-hidden bg-ink-950">
-        <Image
-          src="/brand/hero-primary.jpg"
-          alt="Luxury residential arrival court in Gurugram"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center opacity-[0.55]"
+        <HeroMedia
+          poster="/brand/hero-video-poster.jpg"
+          src="/video/hero-tower.mp4"
+          srcSmall="/video/hero-tower-sm.mp4"
+          alt="Modern glass high-rise tower"
         />
+        {/* Vertical scrim: keeps the headline and the stat strip legible while
+            still letting the tower read through the middle of the frame. */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/85 to-ink-950/30"
+          className="absolute inset-0 bg-gradient-to-b from-ink-950/70 via-ink-950/25 to-ink-950/90"
         />
+        {/* Extra horizontal depth, desktop only — the frame is much wider there. */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-ink-950 via-transparent to-ink-950/50"
+          className="absolute inset-0 hidden bg-gradient-to-r from-ink-950/55 via-ink-950/15 to-ink-950/40 sm:block"
         />
 
         <div className="shell relative py-16 text-center sm:py-20 lg:py-24">
@@ -171,9 +191,10 @@ export default async function HomePage() {
               <div key={s.label}>
                 <dt className="sr-only">{s.label}</dt>
                 <dd>
-                  <span className="block font-display text-[1.75rem] font-extrabold leading-none text-white sm:text-[2.125rem]">
-                    {s.value}
-                  </span>
+                  <Counter
+                    value={s.value}
+                    className="block font-display text-[1.75rem] font-extrabold leading-none text-white sm:text-[2.125rem]"
+                  />
                   <span className="mt-1.5 block text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-white/45">
                     {s.label}
                   </span>
@@ -186,7 +207,8 @@ export default async function HomePage() {
 
       {/* ================= TRUST BAR ================= */}
       <section className="border-b border-ink-200 bg-ink-50/60">
-        <div className="shell grid gap-y-5 py-7 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="shell py-7">
+        <MobileCarousel grid="sm:grid-cols-2 lg:grid-cols-4" peek="lg" gap="gap-4 sm:gap-y-5">
           {[
             {
               Icon: BadgeCheck,
@@ -221,6 +243,7 @@ export default async function HomePage() {
               </div>
             </div>
           ))}
+        </MobileCarousel>
         </div>
       </section>
 
@@ -335,7 +358,7 @@ export default async function HomePage() {
             )}
           />
           <div className="mt-10">
-            <FeaturedCities cityCounts={cityCounts} />
+            <FeaturedCities cityCounts={cityCounts} cityImages={cityImages} />
           </div>
         </div>
       </section>
@@ -349,7 +372,12 @@ export default async function HomePage() {
             description="In Gurugram the corridor does most of the work. Here is how the six micro-markets we transact in actually compare on pricing, infrastructure and growth outlook."
             action={{ label: "All locations", href: "/locations" }}
           />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <MobileCarousel
+            grid="sm:grid-cols-2 lg:grid-cols-3"
+            peek="lg"
+            gap="gap-5"
+            className="mt-10"
+          >
             {localities.map((l) => {
               const count = facets.byLocality.get(l.name) ?? 0;
               return (
@@ -395,7 +423,7 @@ export default async function HomePage() {
                 </Link>
               );
             })}
-          </div>
+          </MobileCarousel>
         </div>
       </section>
 
@@ -411,7 +439,12 @@ export default async function HomePage() {
               "The things that make GoRealtors a genuine advisory, not another listing desk.",
             )}
           />
-          <div className="mt-11 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <MobileCarousel
+            grid="sm:grid-cols-2 lg:grid-cols-3"
+            peek="lg"
+            gap="gap-5"
+            className="mt-11"
+          >
             {WHY_CHOOSE.map((w) => (
               <article
                 key={w.title}
@@ -428,7 +461,7 @@ export default async function HomePage() {
                 </p>
               </article>
             ))}
-          </div>
+          </MobileCarousel>
           <div className="mt-10 flex justify-center gap-3">
             <Link href="/about" className="btn btn-dark">
               Our approach
@@ -485,7 +518,12 @@ export default async function HomePage() {
               description="Shortlisted on fundamentals — developer delivery record, corridor infrastructure, carpet-area efficiency and realistic possession timelines. Residential and commercial, judged the same way."
               action={{ label: "All properties", href: "/projects" }}
             />
-            <div className="mt-10 grid gap-6 lg:grid-cols-3">
+            <MobileCarousel
+              grid="sm:grid-cols-2 lg:grid-cols-3"
+              peek="lg"
+              gap="gap-6"
+              className="mt-10"
+            >
               {spotlight.map((p) => (
                 <Link
                   key={p.slug}
@@ -531,7 +569,7 @@ export default async function HomePage() {
                   </div>
                 </Link>
               ))}
-            </div>
+            </MobileCarousel>
           </div>
         </section>
       )}
@@ -544,12 +582,17 @@ export default async function HomePage() {
           description="Eight service lines that cover the full life of a real estate decision — from the first shortlist through leasing the asset years later."
           action={{ label: "All services", href: "/services" }}
         />
-        <div className="mt-10 grid gap-px bg-ink-200 sm:grid-cols-2 lg:grid-cols-4">
+        <MobileCarousel
+          grid="sm:grid-cols-2 lg:grid-cols-4"
+          peek="md"
+          gap="gap-4 sm:gap-px"
+          className="mt-10 sm:bg-ink-200"
+        >
           {SERVICES.map((s) => (
             <Link
               key={s.slug}
               href={`/services/${s.slug}`}
-              className="group flex flex-col bg-white p-6 transition-colors hover:bg-brand-50/60"
+              className="group flex flex-col rounded-md border border-ink-200 bg-white p-6 transition-colors hover:bg-brand-50/60 sm:rounded-none sm:border-0"
             >
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm bg-ink-950 text-brand-400 transition-colors group-hover:bg-brand-600 group-hover:text-white">
                 {SERVICE_ICONS[s.slug]}
@@ -569,7 +612,7 @@ export default async function HomePage() {
               </span>
             </Link>
           ))}
-        </div>
+        </MobileCarousel>
       </section>
 
       {/* ================= PROCESS ================= */}
@@ -581,9 +624,18 @@ export default async function HomePage() {
             title="Six steps from first call to keys in hand"
             description="No step gets skipped, and you always know which one you are on."
           />
-          <ol className="mt-12 grid gap-px bg-ink-200 md:grid-cols-2 lg:grid-cols-3">
+          <MobileCarousel
+            as="ol"
+            grid="sm:grid-cols-2 lg:grid-cols-3"
+            peek="md"
+            gap="gap-4 sm:gap-px"
+            className="mt-12 sm:bg-ink-200"
+          >
             {PROCESS_STEPS.map((s) => (
-              <li key={s.step} className="relative bg-white p-7">
+              <li
+                key={s.step}
+                className="relative rounded-md border border-ink-200 bg-white p-7 sm:rounded-none sm:border-0"
+              >
                 <span className="font-display text-[2.5rem] font-extrabold leading-none text-ink-100">
                   {s.step}
                 </span>
@@ -595,7 +647,7 @@ export default async function HomePage() {
                 </p>
               </li>
             ))}
-          </ol>
+          </MobileCarousel>
         </div>
       </section>
 
@@ -696,9 +748,10 @@ export default async function HomePage() {
           description="Corridor analysis, launch breakdowns and the things developers would rather you did not ask about."
           action={{ label: "All insights", href: "/blog" }}
         />
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.slice(0, 3).map((post) => (
-            <article key={post.slug} className="card card-hover group overflow-hidden">
+        <AutoCarousel className="mt-10" gap="gap-6" delay={4000}>
+          {posts.slice(0, 9).map((post) => (
+            <AutoSlide key={post.slug}>
+            <article className="card card-hover group h-full overflow-hidden">
               <Link
                 href={`/blog/${post.slug}`}
                 className="relative block aspect-[16/10] overflow-hidden bg-ink-100"
@@ -731,8 +784,9 @@ export default async function HomePage() {
                 </p>
               </div>
             </article>
+            </AutoSlide>
           ))}
-        </div>
+        </AutoCarousel>
       </section>
 
       {/* ================= FAQ + FORM ================= */}
