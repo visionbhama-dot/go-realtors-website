@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, LayoutGrid, Rows3 } from "lucide-react";
 import { ProjectCard } from "@/components/project/ProjectCard";
+import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -171,13 +172,16 @@ export function PropertyShowcase({ projects }: { projects: Project[] }) {
           Nothing in this category right now.
         </p>
       ) : (
-        <div
-          className={cn(
-            "mt-8",
-            layout === "grid"
-              ? "grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-              : "grid gap-5",
-          )}
+        <MobileCarousel
+          // The view toggle is desktop-only, so on a phone this is always the
+          // card layout and always swipes; the toggle just picks which grid it
+          // relaxes into from `sm` up.
+          grid={
+            layout === "grid" ? "sm:grid-cols-2 lg:grid-cols-3" : "sm:grid-cols-1"
+          }
+          peek="lg"
+          gap={layout === "grid" ? "gap-6" : "gap-6 lg:gap-5"}
+          className="mt-8"
         >
           {visible.map((p, i) => (
             <ProjectCard
@@ -187,7 +191,7 @@ export function PropertyShowcase({ projects }: { projects: Project[] }) {
               layout={layout === "rows" ? "row" : "grid"}
             />
           ))}
-        </div>
+        </MobileCarousel>
       )}
 
       {/* footer actions */}
