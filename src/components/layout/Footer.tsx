@@ -230,6 +230,9 @@ export async function Footer() {
             <Link href="/disclaimer" className="hover:text-brand-400">
               Disclaimer
             </Link>
+            <Link href="/image-credits" className="hover:text-brand-400">
+              Image Credits
+            </Link>
             <Link href="/admin" className="hover:text-brand-400">
               Staff Login
             </Link>
