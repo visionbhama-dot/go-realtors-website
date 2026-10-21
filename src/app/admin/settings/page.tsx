@@ -26,19 +26,12 @@ const GROUPS: { group: string; title: string; description: string; fields: Setti
       "The headline, search prompt and section titles on the public homepage. Leave a field blank to use the built-in default.",
     fields: [
       {
-        name: "hero_prefix",
-        label: "Hero headline (first line)",
-        hint: "Kept on one line on mobile — keep it short.",
-        fallback: "Discover properties in",
-      },
-      {
-        name: "hero_words",
-        label: "Hero rotating words",
+        name: "hero_headline",
+        label: "Hero headline",
         type: "textarea",
-        rows: 6,
-        hint: "One phrase per line. These rotate after the headline (e.g. Gurugram, New Delhi).",
-        fallback:
-          "Gurugram\nNew Delhi\nDwarka Expressway\nGolf Course Road\nNoida\npopular localities",
+        rows: 2,
+        hint: "The main headline over the hero video.",
+        fallback: "The Right Property Starts With the Right Advice.",
       },
       {
         name: "hero_subheading",
@@ -46,16 +39,16 @@ const GROUPS: { group: string; title: string; description: string; fields: Setti
         type: "textarea",
         rows: 2,
         fallback:
-          "We help you find your next home — RERA-verified projects and honest numbers.",
+          "Explore property opportunities across Gurugram with clear information, thoughtful comparisons, and guidance tailored to your requirements.",
       },
-      { name: "types_title", label: "Property types — title", fallback: "What are you looking for?" },
+      { name: "types_title", label: "Property types — title", fallback: "Start With the Kind of Property You Need" },
       {
         name: "types_desc",
         label: "Property types — description",
         type: "textarea",
         rows: 2,
         fallback:
-          "Jump straight to the kind of property you want — from branded residences to commercial plots.",
+          "Choose a property category to narrow your search and focus on opportunities relevant to your goals.",
       },
       {
         name: "curated_title",
@@ -72,15 +65,16 @@ const GROUPS: { group: string; title: string; description: string; fields: Setti
       },
       {
         name: "trending_title",
-        label: "Trending projects — title",
-        fallback: "The noteworthy real estate in Gurugram",
+        label: "Featured projects — title",
+        fallback: "Explore Selected Projects",
       },
       {
         name: "trending_desc",
-        label: "Trending projects — description",
+        label: "Featured projects — description",
         type: "textarea",
         rows: 2,
-        fallback: "The projects drawing the most buyer interest this quarter.",
+        fallback:
+          "Review a focused selection of projects and compare the details that matter to you. Availability, pricing and terms can change, so confirm current information before making a decision.",
       },
       {
         name: "cities_title",

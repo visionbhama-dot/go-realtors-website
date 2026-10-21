@@ -14,8 +14,8 @@ import { SITE } from "@/lib/site";
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     path: "/about",
-    title: "About GoRealtors | Property Consultant & Real Estate Advisors, Gurugram",
-    description: "GoRealtors is a Gurugram real estate advisory representing buyers and investors across luxury residential, commercial retail and SCO plotted markets. Numbers-first advice, zero buyer brokerage on new launches.",
+    title: "About GoRealtors | Real Estate Consultancy in Gurugram",
+    description: "Learn about GoRealtors, its approach to property discovery, project comparison and buyer guidance in Gurugram.",
   });
 }
 
@@ -48,8 +48,8 @@ export default async function AboutPage() {
     <>
       <PageHero
         eyebrow="About us"
-        title="A property advisory built the way we wished one existed"
-        description="GoRealtors was founded on a simple frustration: buyers in Gurugram were being sold inventory instead of being advised. We represent the buyer's side of the table — and we put the reasoning in writing."
+        title="Real Estate Guidance Built Around Your Requirements"
+        description="Property decisions involve competing priorities, complex information and significant financial commitments. GoRealtors helps you explore relevant opportunities and organise the questions that matter before taking the next step — representing the buyer's side of the table, with the reasoning in writing."
         crumbs={[{ label: "About" }]}
         image="/brand/hero-primary.jpg"
         stats={[

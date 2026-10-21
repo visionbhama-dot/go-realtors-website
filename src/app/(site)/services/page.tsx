@@ -11,8 +11,8 @@ import { PROCESS_STEPS, SERVICES } from "@/data/content";
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     path: "/services",
-    title: "Real Estate Advisory Services in Gurugram | GoRealtors",
-    description: "Residential and commercial advisory, SCO plot guidance, NRI services, legal due diligence, home loan assistance, portfolio management and leasing — all under one Gurugram advisory.",
+    title: "Property Advisory Services in Gurugram | GoRealtors",
+    description: "Learn how GoRealtors can help you explore property options, compare projects, coordinate site visits and navigate the next steps within its service scope.",
   });
 }
 
@@ -21,8 +21,8 @@ export default function ServicesPage() {
     <>
       <PageHero
         eyebrow="Services"
-        title="Everything a property decision actually requires"
-        description="Eight service lines spanning the full life of a real estate decision — shortlisting, diligence, negotiation, financing, possession and eventually leasing or exit."
+        title="Property Decisions Deserve More Than a Sales Pitch"
+        description="A useful property search starts with your requirements. GoRealtors helps you identify relevant options, compare available information and plan the next step — across the full life of a decision, from shortlisting through diligence, negotiation, possession and eventually leasing or exit."
         crumbs={[{ label: "Services" }]}
         image="/brand/cta-commercial.jpg"
         stats={[
@@ -112,7 +112,31 @@ export default function ServicesPage() {
       </section>
 
       <section className="shell py-14 lg:py-20">
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+        <div className="mx-auto max-w-3xl text-center">
+          <SectionHeading
+            align="center"
+            eyebrow="Transparency"
+            title="How GoRealtors Is Compensated"
+          />
+          <div className="prose-go mx-auto mt-5 text-left">
+            <p>
+              On primary and new-launch transactions our fee is paid by the
+              developer, which means our guidance costs you, the buyer, nothing.
+              Before you proceed, we will always explain any fee, commission or
+              commercial relationship relevant to your enquiry and transaction.
+            </p>
+            <p>
+              Being paid by the developer does not change whose side we are on.
+              The mandate we accept is yours — which is why we will tell you when
+              a project does not stack up and advise you against it, even when
+              that costs us a transaction.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-ink-200 bg-ink-50/50 py-14 lg:py-20">
+        <div className="shell grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
           <div>
             <SectionHeading
               eyebrow="Start here"

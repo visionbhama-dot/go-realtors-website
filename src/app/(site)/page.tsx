@@ -26,7 +26,6 @@ import {
   PropertyTypeStrip,
 } from "@/components/home/HomeSections";
 import { TrendingProjects } from "@/components/home/TrendingProjects";
-import { RotatingText } from "@/components/home/RotatingText";
 import { MobileCarousel } from "@/components/ui/MobileCarousel";
 import { AutoCarousel, AutoSlide } from "@/components/ui/AutoCarousel";
 import { Counter } from "@/components/ui/Counter";
@@ -56,8 +55,8 @@ import { formatDate, priceRange } from "@/lib/utils";
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     path: "/",
-    title: "Property Consultant in Gurugram | Luxury & Investment Real Estate — GoRealtors",
-    description: "GoRealtors is a Gurugram real estate advisory for luxury apartments, commercial retail and SCO plots across Dwarka Expressway, Golf Course Road and New Gurgaon. RERA-verified projects, zero brokerage on new launches.",
+    title: "GoRealtors | Property Advisory & Real Estate Opportunities in Gurugram",
+    description: "Explore residential and commercial property opportunities in Gurugram. Compare projects, understand your options, and speak with an advisor about your requirements.",
   });
 }
 
@@ -99,14 +98,6 @@ export default async function HomePage() {
     const v = settings[`home.${name}`];
     return typeof v === "string" && v.trim() ? v.trim() : fallback;
   };
-  const heroWords = copy(
-    "hero_words",
-    "Gurugram\nNew Delhi\nDwarka Expressway\nGolf Course Road\nNoida\npopular localities",
-  )
-    .split("\n")
-    .map((w) => w.trim())
-    .filter(Boolean);
-
   // Optional per-city image overrides, set from admin → Site settings →
   // City images as "City Name = /path/or/url" lines.
   const cityImages = Object.fromEntries(
@@ -169,16 +160,13 @@ export default async function HomePage() {
         />
 
         <div className="shell relative py-16 text-center sm:py-20 lg:py-24">
-          <h1 className="mx-auto flex max-w-4xl flex-col items-center font-display text-[1.6rem] font-extrabold leading-[1.15] text-white sm:text-[3rem] sm:leading-[1.1] lg:text-[3.5rem]">
-            <span className="whitespace-nowrap">
-              {copy("hero_prefix", "Discover properties in")}
-            </span>
-            <RotatingText className="text-brand-400" words={heroWords} />
+          <h1 className="mx-auto max-w-4xl font-display text-[1.9rem] font-extrabold leading-[1.15] text-white sm:text-[3rem] sm:leading-[1.08] lg:text-[3.5rem]">
+            {copy("hero_headline", "The Right Property Starts With the Right Advice.")}
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-[0.9375rem] leading-relaxed text-white/70 sm:text-[1.0625rem]">
+          <p className="mx-auto mt-5 max-w-xl text-[0.9375rem] leading-relaxed text-white/75 sm:text-[1.0625rem]">
             {copy(
               "hero_subheading",
-              "We help you find your next home — RERA-verified projects and honest numbers.",
+              "Explore property opportunities across Gurugram with clear information, thoughtful comparisons, and guidance tailored to your requirements.",
             )}
           </p>
 
@@ -252,10 +240,10 @@ export default async function HomePage() {
         <SectionHeading
           align="center"
           eyebrow="Explore by type"
-          title={copy("types_title", "What are you looking for?")}
+          title={copy("types_title", "Start With the Kind of Property You Need")}
           description={copy(
             "types_desc",
-            "Jump straight to the kind of property you want — from branded residences to commercial plots.",
+            "Choose a property category to narrow your search and focus on opportunities relevant to your goals.",
           )}
         />
         <div className="mt-10">
@@ -284,11 +272,11 @@ export default async function HomePage() {
       {/* ================= TRENDING PROJECTS ================= */}
       <section className="shell py-16 lg:py-24">
         <SectionHeading
-          eyebrow="Trending projects"
-          title={copy("trending_title", "The noteworthy real estate in Gurugram")}
+          eyebrow="Featured projects"
+          title={copy("trending_title", "Explore Selected Projects")}
           description={copy(
             "trending_desc",
-            "The projects drawing the most buyer interest this quarter.",
+            "Review a focused selection of projects and compare the details that matter to you. Availability, pricing and terms can change, so confirm current information before making a decision.",
           )}
           action={{ label: "View all projects", href: "/projects" }}
         />
@@ -367,9 +355,9 @@ export default async function HomePage() {
       <section className="border-y border-ink-200 bg-ink-50/50 py-16 lg:py-24">
         <div className="shell">
           <SectionHeading
-            eyebrow="Top locations in Gurugram"
-            title="Pick the corridor, then pick the project"
-            description="In Gurugram the corridor does most of the work. Here is how the six micro-markets we transact in actually compare on pricing, infrastructure and growth outlook."
+            eyebrow="Explore by location"
+            title="Find the Location That Fits Your Plans"
+            description="Location can shape your commute, daily routine, access to services and long-term property considerations. Explore the areas we actively cover and compare the projects within them."
             action={{ label: "All locations", href: "/locations" }}
           />
           <MobileCarousel
@@ -730,9 +718,9 @@ export default async function HomePage() {
         <div className="shell">
           <SectionHeading
             tone="dark"
-            eyebrow="Client outcomes"
-            title="What buyers say after the deal closes"
-            description="Collected from families and investors we have represented across Gurugram and Delhi."
+            eyebrow="Client experiences"
+            title="Experiences From People We've Helped"
+            description="Every property search is different. These are first-hand experiences from clients who agreed to share their feedback."
           />
           <div className="mt-10">
             <TestimonialSlider items={testimonials} />
@@ -743,10 +731,10 @@ export default async function HomePage() {
       {/* ================= INSIGHTS ================= */}
       <section className="shell py-16 lg:py-24">
         <SectionHeading
-          eyebrow="Market insights"
-          title="Read before you buy"
-          description="Corridor analysis, launch breakdowns and the things developers would rather you did not ask about."
-          action={{ label: "All insights", href: "/blog" }}
+          eyebrow="Insights & guides"
+          title="Make Your Next Property Decision With Better Information"
+          description="Practical guides to property buying, location research, project comparisons, ownership costs, and the questions worth asking before you commit."
+          action={{ label: "Read property guides", href: "/blog" }}
         />
         <AutoCarousel className="mt-10" gap="gap-6" delay={4000}>
           {posts.slice(0, 9).map((post) => (

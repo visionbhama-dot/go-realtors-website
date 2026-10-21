@@ -51,10 +51,9 @@ export async function Footer() {
         <div>
           <Logo variant="light" />
           <p className="mt-5 text-sm leading-relaxed text-white/60">
-            GoRealtors is a Gurugram-based real estate advisory. We represent
-            buyers and investors across luxury residential, high-street retail
-            and SCO plotted commercial — with due diligence done before a
-            project ever reaches your shortlist.
+            GoRealtors helps people explore property opportunities in Gurugram
+            with clear information, considered comparisons and guidance tailored
+            to their requirements.
           </p>
 
           <div className="mt-6 space-y-3 text-sm">

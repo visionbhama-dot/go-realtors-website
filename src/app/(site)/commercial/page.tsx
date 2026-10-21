@@ -9,8 +9,8 @@ import { formatINR } from "@/lib/utils";
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     path: "/commercial",
-    title: "Commercial Property in Gurugram | Retail, Offices & SCO Plots",
-    description: "Commercial real estate investment in Gurugram and Delhi — high-street retail, office floors, SCO plots, food-court formats and anchor malls. Yield modelling and catchment analysis before you buy.",
+    title: "Commercial Property in Gurugram | GoRealtors",
+    description: "Explore commercial property opportunities in Gurugram. Review asset type, location, occupancy or lease information, costs and relevant project details.",
   });
 }
 
@@ -71,8 +71,8 @@ export default async function CommercialPage() {
     <>
       <PageHero
         eyebrow="Commercial & investment"
-        title="Commercial assets chosen for yield, not for the brochure"
-        description="High-street retail, office floors, SCO plots and food-court formats across Gurugram and Dwarka. Every asset is modelled for gross yield, exit cap and catchment strength before we recommend it."
+        title="Explore Commercial Property Opportunities in Gurugram"
+        description="Commercial decisions depend on the asset, location, intended use, costs, occupancy, lease terms and your own objectives. Explore available opportunities and review the supporting details — including gross yield, exit cap and catchment strength — before deciding what to investigate further."
         crumbs={[{ label: "Commercial" }]}
         image="/brand/band-commercial.jpg"
         stats={[

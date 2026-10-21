@@ -9,8 +9,8 @@ import { formatINR } from "@/lib/utils";
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     path: "/residential",
-    title: "Residential Properties in Gurugram | Luxury Apartments & Floors",
-    description: "Luxury residential projects in Gurugram — 2 to 5 BHK apartments, penthouses and independent floors across Dwarka Expressway, Golf Course Road, Golf Course Extension Road and New Gurgaon.",
+    title: "Residential Properties in Gurugram | GoRealtors",
+    description: "Explore residential property opportunities in Gurugram. Compare projects by location, budget, configuration and available project information.",
   });
 }
 
@@ -76,8 +76,8 @@ export default async function ResidentialPage() {
     <>
       <PageHero
         eyebrow="Residential"
-        title="Luxury homes across Gurugram's strongest corridors"
-        description="Apartments, penthouses and independent floors from 2 BHK to 5 BHK. Every project below has been checked for HARERA registration, carpet-area efficiency and the developer's actual delivery record."
+        title="Find a Home That Fits Your Life and Plans"
+        description="Explore residential projects across selected Gurugram locations. Compare layouts, budgets, amenities, location factors and project information to create a shortlist that fits your needs. Every project below has been checked for HARERA registration, carpet-area efficiency and the developer's delivery record."
         crumbs={[{ label: "Residential" }]}
         image="/brand/band-residential.jpg"
         stats={[
