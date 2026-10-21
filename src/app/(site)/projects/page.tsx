@@ -13,8 +13,8 @@ import { STATUS_LABEL } from "@/lib/utils";
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     path: "/projects",
-    title: "All Property Projects in Gurugram | Residential & Commercial",
-    description: "Browse every residential and commercial project GoRealtors represents in Gurugram and Delhi. Filter by budget, location, developer, configuration and construction stage.",
+    title: "Property Projects in Gurugram | GoRealtors",
+    description: "Explore property projects across Gurugram. Filter by location, property type, budget, configuration and project status to build a relevant shortlist.",
   });
 }
 
@@ -72,8 +72,8 @@ export default async function ProjectsPage({
       <PageHero
         size="compact"
         eyebrow="Project directory"
-        title="Every project we represent, in one place"
-        description="A live directory of residential and commercial inventory across Gurugram and Delhi. Prices shown are developer-quoted starting rates and exclude GST, stamp duty and registration."
+        title="Explore Property Projects Across Gurugram"
+        description="Browse residential and commercial opportunities across selected locations in Gurugram. Use the filters to narrow the list, review project details, and contact an advisor when you need help comparing options. Prices shown are indicative and exclude GST, stamp duty and registration — confirm current details before deciding."
         crumbs={[{ label: "Projects" }]}
         image="/brand/band-residential.jpg"
       />

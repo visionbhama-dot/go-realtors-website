@@ -17,7 +17,7 @@ import {
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     path: "/contact",
-    title: "Contact GoRealtors | Property Consultant in Sector 83, Gurugram",
+    title: "Contact GoRealtors | Property Enquiries in Gurugram",
     description: `Talk to GoRealtors about property in Gurugram. Call ${SITE.phoneDisplay}, email ${SITE.email} or visit us at SVH Metro Street, Sector 83, Gurugram.`,
   });
 }
@@ -29,8 +29,8 @@ export default function ContactPage() {
     <>
       <PageHero
         eyebrow="Contact"
-        title="Let's talk about what you're trying to buy"
-        description="A twenty-minute call is usually enough to narrow a dozen options down to two or three worth visiting. No obligation, and no brokerage on primary purchases."
+        title="Let's Talk About Your Property Requirements"
+        description="Share a few details about what you are looking for. Our team can review your enquiry and contact you using the details you provide. A short call is usually enough to narrow a dozen options down to two or three worth visiting."
         crumbs={[{ label: "Contact" }]}
         image="/brand/hero-primary.jpg"
         size="compact"
