@@ -74,7 +74,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-IN" className={`${inter.variable} ${display.variable}`}>
-      <body>{children}</body>
+      <body className="overflow-x-clip">{children}</body>
     </html>
   );
 }

@@ -12,7 +12,8 @@ import { useEffect, useRef, useState } from "react";
  * correct across resize and orientation changes.
  *
  * Vimeo's `background=1` gives a chromeless, muted, looping autoplay player.
- * Respects prefers-reduced-motion by not loading the video at all.
+ * The clip's own still frame sits behind it as an instant/blocked-playback
+ * fallback, so the hero always looks intentional.
  */
 
 const VIMEO_SRC =
@@ -23,13 +24,6 @@ const RATIO = 16 / 9;
 export function HeroVimeo() {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const [box, setBox] = useState({ w: 0, h: 0 });
-  const [allowed, setAllowed] = useState(false);
-
-  useEffect(() => {
-    setAllowed(
-      !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-    );
-  }, []);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -68,7 +62,7 @@ export function HeroVimeo() {
         alt=""
         className="absolute inset-0 h-full w-full object-cover"
       />
-      {allowed && box.w > 0 && (
+      {box.w > 0 && (
         <iframe
           src={VIMEO_SRC}
           title="Background video"
