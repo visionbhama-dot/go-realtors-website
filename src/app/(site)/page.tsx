@@ -5,7 +5,6 @@ import { buildMetadata } from "@/lib/seo";
 import {
   ArrowRight,
   ArrowUpRight,
-  BadgeCheck,
   Building2,
   Calculator,
   FileCheck2,
@@ -14,7 +13,6 @@ import {
   MapPin,
   Scale,
   Store,
-  TrendingUp,
   Users,
 } from "lucide-react";
 import { HeroSearch } from "@/components/home/HeroSearch";
@@ -36,12 +34,7 @@ import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StickyCta } from "@/components/ui/StickyCta";
 import { TestimonialSlider } from "@/components/ui/TestimonialSlider";
-import {
-  HOME_FAQS,
-  PROCESS_STEPS,
-  SERVICES,
-  WHY_CHOOSE,
-} from "@/data/content";
+import { SERVICES, WHY_CHOOSE } from "@/data/content";
 import { getPosts, getSettings, getTestimonials } from "@/lib/repo/content";
 import {
   getAllProjects,
@@ -137,6 +130,40 @@ export default async function HomePage() {
     return acc;
   }, {});
 
+  // Homepage FAQ set (blueprint Section 10).
+  const homeFaqs = [
+    {
+      question: "How do I start finding a property through GoRealtors?",
+      answer:
+        "Start by exploring the project directory, or contact us with your preferred location, budget, property type and timeline. We can then discuss relevant options within our service scope.",
+    },
+    {
+      question: "Can I compare multiple projects before arranging a site visit?",
+      answer:
+        "Yes. Use the project pages to review available information, and speak with an advisor to clarify differences and open questions.",
+    },
+    {
+      question: "Are the prices shown on the website final?",
+      answer:
+        "Published prices are indicative unless explicitly stated otherwise. Pricing, availability, charges and payment terms may change. Confirm the latest written details with the relevant seller or developer.",
+    },
+    {
+      question: "Can GoRealtors arrange a site visit?",
+      answer:
+        "Site visits may be coordinated for relevant shortlisted properties, subject to project access and availability. Contact us to discuss the next step.",
+    },
+    {
+      question: "Does GoRealtors provide legal or financial advice?",
+      answer:
+        "We state only the services we actually provide. For legal, tax, lending or regulated financial advice, please consult an appropriately qualified professional.",
+    },
+    {
+      question: "How can I contact an advisor?",
+      answer:
+        "Use the contact form, call our published business number, or message us on the official WhatsApp contact shown on this website.",
+    },
+  ];
+
   return (
     <>
       {/* ================= HERO ================= */}
@@ -193,45 +220,59 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ================= TRUST BAR ================= */}
-      <section className="border-b border-ink-200 bg-ink-50/60">
-        <div className="shell py-7">
-        <MobileCarousel grid="sm:grid-cols-2 lg:grid-cols-4" peek="lg" gap="gap-4 sm:gap-y-5">
-          {[
-            {
-              Icon: BadgeCheck,
-              title: "RERA-verified only",
-              body: "HARERA number and QPR filings checked first",
-            },
-            {
-              Icon: FileCheck2,
-              title: "Zero buyer brokerage",
-              body: "Our fee is paid by the developer on new launches",
-            },
-            {
-              Icon: TrendingUp,
-              title: "Numbers-first advice",
-              body: "Carpet area, loading and all-in outgo, in writing",
-            },
-            {
-              Icon: Handshake,
-              title: "One advisor, end to end",
-              body: "From first call to registry and beyond",
-            },
-          ].map(({ Icon, title, body }) => (
-            <div key={title} className="flex items-start gap-3 lg:px-2">
-              <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-white text-brand-700 shadow-card">
-                <Icon className="h-4.5 w-4.5" strokeWidth={2.1} />
-              </span>
-              <div>
-                <p className="text-[0.8125rem] font-bold text-ink-900">{title}</p>
-                <p className="mt-0.5 text-[0.75rem] leading-snug text-ink-500">
+      {/* ============ CLARITY — a more informed way to explore ============ */}
+      <section className="border-b border-ink-200 bg-ink-50/60 py-14 lg:py-20">
+        <div className="shell">
+          <SectionHeading
+            align="center"
+            eyebrow="A more informed way to explore property"
+            title="Clarity for Your Next Property Decision"
+            description="A property decision involves more than a brochure or a headline price. Understand the location, compare relevant options, review the available information, and decide what deserves a closer look."
+          />
+          <MobileCarousel
+            grid="sm:grid-cols-2 lg:grid-cols-4"
+            peek="lg"
+            gap="gap-4"
+            className="mt-10"
+          >
+            {[
+              {
+                Icon: FileCheck2,
+                title: "Clear Project Information",
+                body: "Review key details in one place, with important specifications identified for verification.",
+              },
+              {
+                Icon: Scale,
+                title: "Meaningful Comparisons",
+                body: "Compare options by location, budget, configuration, property type and stated status.",
+              },
+              {
+                Icon: Users,
+                title: "Personalised Guidance",
+                body: "Discuss your requirements with an advisor instead of navigating an overwhelming list alone.",
+              },
+              {
+                Icon: MapPin,
+                title: "Local Market Context",
+                body: "Explore location factors and practical considerations that may influence your decision.",
+              },
+            ].map(({ Icon, title, body }) => (
+              <div
+                key={title}
+                className="rounded-lg border border-ink-200 bg-white p-6"
+              >
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm bg-ink-950 text-brand-400">
+                  <Icon className="h-5 w-5" strokeWidth={2.1} />
+                </span>
+                <p className="mt-4 font-display text-[1rem] font-bold text-ink-900">
+                  {title}
+                </p>
+                <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-ink-600">
                   {body}
                 </p>
               </div>
-            </div>
-          ))}
-        </MobileCarousel>
+            ))}
+          </MobileCarousel>
         </div>
       </section>
 
@@ -282,6 +323,70 @@ export default async function HomePage() {
         />
         <div className="mt-10">
           <TrendingProjects projects={trendingProjects} />
+        </div>
+      </section>
+
+      {/* ============ UNDERSTAND YOUR OPTIONS (blueprint S5) ============ */}
+      <section className="border-y border-ink-200 bg-ink-50/50 py-16 lg:py-24">
+        <div className="shell grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <SectionHeading
+              eyebrow="Advice that starts with you"
+              title="Don't Just Explore Properties. Understand Your Options."
+              description="The right shortlist depends on what you are trying to achieve. Tell us what matters to you — your budget, preferred location, intended use, timeline and non-negotiables — and we can help you organise the options worth exploring."
+            />
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link href="/contact" className="btn btn-primary">
+                Discuss your requirements
+                <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
+              </Link>
+              <Link href="/projects" className="btn btn-outline">
+                Browse projects
+              </Link>
+            </div>
+          </div>
+
+          <ol className="space-y-3">
+            {[
+              {
+                t: "Understand your requirements",
+                b: "Clarify budget, purpose, preferred locations, configuration and decision timeline.",
+              },
+              {
+                t: "Build a relevant shortlist",
+                b: "Focus on options that align with the brief rather than showing every available listing.",
+              },
+              {
+                t: "Compare the details",
+                b: "Review pricing basis, specifications, project status, location factors and the questions that need confirmation.",
+              },
+              {
+                t: "Plan a site visit",
+                b: "Arrange visits to shortlisted properties where appropriate and subject to availability.",
+              },
+              {
+                t: "Make an informed decision",
+                b: "Use verified information and independent professional advice where required before committing.",
+              },
+            ].map((s, i) => (
+              <li
+                key={s.t}
+                className="flex gap-4 rounded-lg border border-ink-200 bg-white p-5"
+              >
+                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-600 font-display text-[0.9375rem] font-extrabold text-white">
+                  {i + 1}
+                </span>
+                <div>
+                  <p className="font-display text-[1rem] font-bold text-ink-900">
+                    {s.t}
+                  </p>
+                  <p className="mt-1 text-[0.8125rem] leading-relaxed text-ink-600">
+                    {s.b}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
@@ -603,23 +708,49 @@ export default async function HomePage() {
         </MobileCarousel>
       </section>
 
-      {/* ================= PROCESS ================= */}
+      {/* ============ JOURNEY — search to site visit (blueprint S7) ======= */}
       <section className="border-y border-ink-200 bg-ink-50/50 py-16 lg:py-24">
         <div className="shell">
           <SectionHeading
             align="center"
-            eyebrow="How we work"
-            title="Six steps from first call to keys in hand"
-            description="No step gets skipped, and you always know which one you are on."
+            eyebrow="How it works"
+            title="A Clearer Journey From Search to Site Visit"
+            description="Five simple stages — so you always know where you are and what happens next."
           />
           <MobileCarousel
             as="ol"
-            grid="sm:grid-cols-2 lg:grid-cols-3"
+            grid="sm:grid-cols-2 lg:grid-cols-5"
             peek="md"
             gap="gap-4 sm:gap-px"
             className="mt-12 sm:bg-ink-200"
           >
-            {PROCESS_STEPS.map((s) => (
+            {[
+              {
+                step: "01",
+                title: "Discover",
+                body: "Browse projects and locations that match your initial requirements.",
+              },
+              {
+                step: "02",
+                title: "Shortlist",
+                body: "Share your budget, intended use, preferred location and timeline.",
+              },
+              {
+                step: "03",
+                title: "Compare",
+                body: "Review available project information and clarify unanswered questions.",
+              },
+              {
+                step: "04",
+                title: "Visit",
+                body: "Arrange a site visit for shortlisted options, where available.",
+              },
+              {
+                step: "05",
+                title: "Decide",
+                body: "Confirm all commercial, legal, regulatory and contractual details with the relevant qualified professionals before proceeding.",
+              },
+            ].map((s) => (
               <li
                 key={s.step}
                 className="relative rounded-md border border-ink-200 bg-white p-7 sm:rounded-none sm:border-0"
@@ -636,6 +767,19 @@ export default async function HomePage() {
               </li>
             ))}
           </MobileCarousel>
+          <p className="mx-auto mt-10 max-w-2xl text-center text-[0.875rem] leading-relaxed text-ink-600">
+            Our role is to help you navigate property options and coordinate the
+            next steps within the scope of services we actually provide.
+          </p>
+          <div className="mt-6 flex justify-center gap-3">
+            <Link href="/projects" className="btn btn-dark">
+              Start your search
+              <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
+            </Link>
+            <Link href="/contact" className="btn btn-outline">
+              Speak with an advisor
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -785,7 +929,7 @@ export default async function HomePage() {
               eyebrow="Frequently asked"
               title="The questions buyers ask us first"
             />
-            <FaqAccordion faqs={HOME_FAQS} className="mt-8" />
+            <FaqAccordion faqs={homeFaqs} className="mt-8" />
             <p className="mt-6 text-[0.8125rem] text-ink-600">
               Still unsure about something?{" "}
               <Link
@@ -811,6 +955,32 @@ export default async function HomePage() {
               heading="Get a free property consultation"
               subheading="Share your requirement and budget. You'll get a shortlist with carpet areas and all-in pricing — usually within one working day."
             />
+          </div>
+        </div>
+      </section>
+
+      {/* ============ FINAL CONVERSION (blueprint S11) ============ */}
+      <section className="relative isolate overflow-hidden bg-ink-950 py-16 lg:py-20">
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[radial-gradient(60%_120%_at_50%_0%,rgba(34,197,94,0.18),transparent)]"
+        />
+        <div className="shell relative text-center">
+          <h2 className="mx-auto max-w-3xl font-display text-[1.6rem] font-extrabold leading-tight text-white sm:text-[2.125rem]">
+            Let&apos;s Find the Right Property for Your Requirements.
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-[0.9375rem] leading-relaxed text-white/70">
+            Tell us what you are looking for. Share a few details and our team
+            can help you identify the next practical step.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link href="/contact" className="btn btn-primary btn-lg">
+              Request a callback
+              <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
+            </Link>
+            <a href={`tel:${SITE.phone}`} className="btn btn-ghost-light btn-lg">
+              Call {SITE.phoneDisplay}
+            </a>
           </div>
         </div>
       </section>
