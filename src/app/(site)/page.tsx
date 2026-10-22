@@ -16,7 +16,7 @@ import {
   Users,
 } from "lucide-react";
 import { HeroSearch } from "@/components/home/HeroSearch";
-import { HeroMedia } from "@/components/home/HeroMedia";
+import { HeroVimeo } from "@/components/home/HeroVimeo";
 import { PropertyShowcase } from "@/components/home/PropertyShowcase";
 import {
   CuratedCollections,
@@ -168,25 +168,18 @@ export default async function HomePage() {
     <>
       {/* ================= HERO ================= */}
       <section className="relative isolate overflow-hidden bg-ink-950">
-        <HeroMedia
-          poster="/brand/hero-video-poster.jpg"
-          src="/video/hero-tower.mp4"
-          srcSmall="/video/hero-tower-sm.mp4"
-          alt="Modern glass high-rise tower"
-        />
-        {/* Vertical scrim: keeps the headline and the stat strip legible while
-            still letting the tower read through the middle of the frame. */}
+        <HeroVimeo />
+        {/* Scrims over the video so the headline, search and stats stay legible. */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-b from-ink-950/70 via-ink-950/25 to-ink-950/90"
+          className="absolute inset-0 z-[1] bg-gradient-to-b from-ink-950/75 via-ink-950/45 to-ink-950/90"
         />
-        {/* Extra horizontal depth, desktop only — the frame is much wider there. */}
         <div
           aria-hidden
-          className="absolute inset-0 hidden bg-gradient-to-r from-ink-950/55 via-ink-950/15 to-ink-950/40 sm:block"
+          className="absolute inset-0 z-[1] hidden bg-gradient-to-r from-ink-950/60 via-ink-950/25 to-ink-950/45 sm:block"
         />
 
-        <div className="shell relative py-16 text-center sm:py-20 lg:py-24">
+        <div className="shell relative z-10 py-16 text-center sm:py-20 lg:py-24">
           <h1 className="mx-auto max-w-4xl font-display text-[1.9rem] font-extrabold leading-[1.15] text-white sm:text-[3rem] sm:leading-[1.08] lg:text-[3.5rem]">
             {copy("hero_headline", "The Right Property Starts With the Right Advice.")}
           </h1>
