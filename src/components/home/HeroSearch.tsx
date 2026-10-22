@@ -32,7 +32,7 @@ export function HeroSearch({ searchIndex }: { searchIndex: SearchItem[] }) {
       <div className="rounded-md bg-white p-2 shadow-rise">
         <LiveSearch
           index={searchIndex}
-          placeholder="Search by city, locality, project or developer"
+          placeholder="Search by project, location or developer"
           inputClassName="h-13 border-transparent bg-white pl-11 text-[0.9375rem] focus:shadow-none"
         />
       </div>
