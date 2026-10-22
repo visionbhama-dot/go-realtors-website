@@ -548,7 +548,7 @@ export default async function HomePage() {
               </article>
             ))}
           </MobileCarousel>
-          <div className="mt-10 flex justify-center gap-3">
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
             <Link href="/about" className="btn btn-dark">
               Our approach
               <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
@@ -764,7 +764,7 @@ export default async function HomePage() {
             Our role is to help you navigate property options and coordinate the
             next steps within the scope of services we actually provide.
           </p>
-          <div className="mt-6 flex justify-center gap-3">
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link href="/projects" className="btn btn-dark">
               Start your search
               <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
