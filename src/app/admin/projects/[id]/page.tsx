@@ -112,6 +112,15 @@ export default async function EditProjectPage({
       carpet_sqft: txt(c.carpet_sqft),
       price: txt(c.price),
     })),
+    plans: (Array.isArray(project.plans)
+      ? (project.plans as Record<string, unknown>[])
+      : []
+    ).map((p) => ({
+      type: txt(p.type) || "Floor Plan",
+      title: txt(p.title),
+      size: txt(p.size),
+      image: txt(p.image),
+    })),
     faqs: faqs.map((f) => ({
       question: txt(f.question),
       answer: txt(f.answer),

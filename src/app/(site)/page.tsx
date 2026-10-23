@@ -5,14 +5,9 @@ import { buildMetadata } from "@/lib/seo";
 import {
   ArrowRight,
   ArrowUpRight,
-  Building2,
-  Calculator,
   FileCheck2,
-  Handshake,
-  LineChart,
   MapPin,
   Scale,
-  Store,
   Users,
 } from "lucide-react";
 import { HeroSearch } from "@/components/home/HeroSearch";
@@ -34,7 +29,7 @@ import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StickyCta } from "@/components/ui/StickyCta";
 import { TestimonialSlider } from "@/components/ui/TestimonialSlider";
-import { SERVICES, WHY_CHOOSE } from "@/data/content";
+import { WHY_CHOOSE } from "@/data/content";
 import { getPosts, getSettings, getTestimonials } from "@/lib/repo/content";
 import {
   getAllProjects,
@@ -52,17 +47,6 @@ export async function generateMetadata(): Promise<Metadata> {
     description: "Explore residential and commercial property opportunities in Gurugram. Compare projects, understand your options, and speak with an advisor about your requirements.",
   });
 }
-
-const SERVICE_ICONS: Record<string, React.ReactNode> = {
-  "residential-advisory": <Building2 className="h-5 w-5" strokeWidth={2} />,
-  "commercial-investment": <Store className="h-5 w-5" strokeWidth={2} />,
-  "sco-plots": <MapPin className="h-5 w-5" strokeWidth={2} />,
-  "nri-services": <Users className="h-5 w-5" strokeWidth={2} />,
-  "legal-due-diligence": <Scale className="h-5 w-5" strokeWidth={2} />,
-  "home-loan-assistance": <Calculator className="h-5 w-5" strokeWidth={2} />,
-  "portfolio-management": <LineChart className="h-5 w-5" strokeWidth={2} />,
-  "leasing-property-management": <Handshake className="h-5 w-5" strokeWidth={2} />,
-};
 
 export default async function HomePage() {
   const [
@@ -164,6 +148,17 @@ export default async function HomePage() {
     },
   ];
 
+  // Hero headline / sub-heading — animated word-by-word reveal (360realtors-style).
+  const heroHeadline = copy(
+    "hero_headline",
+    "The Right Property Starts With the Right Advice.",
+  );
+  const heroSub = copy(
+    "hero_subheading",
+    "Explore property opportunities across Gurugram with clear information, thoughtful comparisons, and guidance tailored to your requirements.",
+  );
+  const heroWords = heroHeadline.split(/\s+/).filter(Boolean);
+
   return (
     <>
       {/* ================= HERO ================= */}
@@ -181,13 +176,28 @@ export default async function HomePage() {
 
         <div className="shell relative z-10 py-16 text-center sm:py-20 lg:py-24">
           <h1 className="mx-auto max-w-4xl font-display text-[1.9rem] font-extrabold leading-[1.15] text-white sm:text-[3rem] sm:leading-[1.08] lg:text-[3.5rem]">
-            {copy("hero_headline", "The Right Property Starts With the Right Advice.")}
+            {heroWords.map((word, i) => (
+              <span
+                key={`${word}-${i}`}
+                className="inline-block"
+                style={{
+                  animation: "reveal 0.6s cubic-bezier(0.22,1,0.36,1) both",
+                  animationDelay: `${0.12 + i * 0.08}s`,
+                }}
+              >
+                {word}
+                {i < heroWords.length - 1 ? "\u00a0" : ""}
+              </span>
+            ))}
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-[0.9375rem] leading-relaxed text-white/75 sm:text-[1.0625rem]">
-            {copy(
-              "hero_subheading",
-              "Explore property opportunities across Gurugram with clear information, thoughtful comparisons, and guidance tailored to your requirements.",
-            )}
+          <p
+            className="mx-auto mt-5 max-w-xl text-[0.9375rem] leading-relaxed text-white/75 sm:text-[1.0625rem]"
+            style={{
+              animation: "reveal 0.7s ease both",
+              animationDelay: `${0.12 + heroWords.length * 0.08 + 0.1}s`,
+            }}
+          >
+            {heroSub}
           </p>
 
           <div className="mx-auto mt-9 max-w-2xl text-left">
@@ -319,69 +329,72 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ============ UNDERSTAND YOUR OPTIONS (blueprint S5) ============ */}
-      <section className="border-y border-ink-200 bg-ink-50/50 py-16 lg:py-24">
-        <div className="shell grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-          <div className="lg:sticky lg:top-28 lg:self-start">
+      {/* ============ ADVISOR SPOTLIGHT (moved up, after selected projects) === */}
+      {spotlight.length > 0 && (
+        <section className="border-y border-ink-200 bg-ink-950 py-16 lg:py-24">
+          <div className="shell">
             <SectionHeading
-              eyebrow="Advice that starts with you"
-              title="Don't Just Explore Properties. Understand Your Options."
-              description="The right shortlist depends on what you are trying to achieve. Tell us what matters to you — your budget, preferred location, intended use, timeline and non-negotiables — and we can help you organise the options worth exploring."
+              tone="dark"
+              eyebrow="Advisor spotlight"
+              title="Three properties worth a closer look"
+              description="Shortlisted on fundamentals — developer delivery record, corridor infrastructure, carpet-area efficiency and realistic possession timelines. Residential and commercial, judged the same way."
+              action={{ label: "All properties", href: "/projects" }}
             />
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/contact" className="btn btn-primary">
-                Discuss your requirements
-                <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
-              </Link>
-              <Link href="/projects" className="btn btn-outline">
-                Browse projects
-              </Link>
-            </div>
+            <MobileCarousel
+              grid="sm:grid-cols-2 lg:grid-cols-3"
+              peek="lg"
+              gap="gap-6"
+              className="mt-10"
+            >
+              {spotlight.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={`/projects/${p.slug}`}
+                  className="group flex flex-col overflow-hidden rounded-md border border-white/12 bg-white/[0.03] transition-colors hover:border-brand-500/50"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden bg-ink-900">
+                    <Image
+                      src={p.images[0] ?? "/brand/placeholder.svg"}
+                      alt={p.name}
+                      fill
+                      sizes="(max-width:1024px) 100vw, 33vw"
+                      className="object-cover opacity-85 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <p className="text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-brand-400">
+                      {p.developer}
+                    </p>
+                    <h3 className="mt-2 font-display text-[1.125rem] font-bold text-white">
+                      {p.name}
+                    </h3>
+                    <p className="mt-1.5 text-[0.8125rem] text-white/50">
+                      {p.sector}, {p.locality}
+                    </p>
+                    <p className="mt-4 flex-1 text-[0.8125rem] leading-relaxed text-white/65">
+                      {p.tagline}
+                    </p>
+                    <div className="mt-5 flex items-end justify-between border-t border-white/10 pt-4">
+                      <div>
+                        <p className="text-[0.625rem] font-bold uppercase tracking-wider text-white/35">
+                          {p.configurationsLabel}
+                        </p>
+                        <p className="mt-0.5 font-display text-[1.0625rem] font-bold text-white">
+                          {priceRange(p.priceMin, p.priceMax)}
+                        </p>
+                      </div>
+                      <ArrowUpRight
+                        className="h-5 w-5 text-brand-400 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+                        strokeWidth={2.4}
+                      />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </MobileCarousel>
           </div>
-
-          <ol className="space-y-3">
-            {[
-              {
-                t: "Understand your requirements",
-                b: "Clarify budget, purpose, preferred locations, configuration and decision timeline.",
-              },
-              {
-                t: "Build a relevant shortlist",
-                b: "Focus on options that align with the brief rather than showing every available listing.",
-              },
-              {
-                t: "Compare the details",
-                b: "Review pricing basis, specifications, project status, location factors and the questions that need confirmation.",
-              },
-              {
-                t: "Plan a site visit",
-                b: "Arrange visits to shortlisted properties where appropriate and subject to availability.",
-              },
-              {
-                t: "Make an informed decision",
-                b: "Use verified information and independent professional advice where required before committing.",
-              },
-            ].map((s, i) => (
-              <li
-                key={s.t}
-                className="flex gap-4 rounded-lg border border-ink-200 bg-white p-5"
-              >
-                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-600 font-display text-[0.9375rem] font-extrabold text-white">
-                  {i + 1}
-                </span>
-                <div>
-                  <p className="font-display text-[1rem] font-bold text-ink-900">
-                    {s.t}
-                  </p>
-                  <p className="mt-1 text-[0.8125rem] leading-relaxed text-ink-600">
-                    {s.b}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ================= DEVELOPER MARQUEE ================= */}
       <section className="overflow-hidden border-b border-ink-200 py-8">
@@ -593,262 +606,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ================= SPOTLIGHT ================= */}
-      {spotlight.length > 0 && (
-        <section className="border-y border-ink-200 bg-ink-950 py-16 lg:py-24">
-          <div className="shell">
-            <SectionHeading
-              tone="dark"
-              eyebrow="Advisor spotlight"
-              title="Three properties worth a closer look"
-              description="Shortlisted on fundamentals — developer delivery record, corridor infrastructure, carpet-area efficiency and realistic possession timelines. Residential and commercial, judged the same way."
-              action={{ label: "All properties", href: "/projects" }}
-            />
-            <MobileCarousel
-              grid="sm:grid-cols-2 lg:grid-cols-3"
-              peek="lg"
-              gap="gap-6"
-              className="mt-10"
-            >
-              {spotlight.map((p) => (
-                <Link
-                  key={p.slug}
-                  href={`/projects/${p.slug}`}
-                  className="group flex flex-col overflow-hidden rounded-md border border-white/12 bg-white/[0.03] transition-colors hover:border-brand-500/50"
-                >
-                  <div className="relative aspect-[16/10] overflow-hidden bg-ink-900">
-                    <Image
-                      src={p.images[0] ?? "/brand/placeholder.svg"}
-                      alt={p.name}
-                      fill
-                      sizes="(max-width:1024px) 100vw, 33vw"
-                      className="object-cover opacity-85 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <p className="text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-brand-400">
-                      {p.developer}
-                    </p>
-                    <h3 className="mt-2 font-display text-[1.125rem] font-bold text-white">
-                      {p.name}
-                    </h3>
-                    <p className="mt-1.5 text-[0.8125rem] text-white/50">
-                      {p.sector}, {p.locality}
-                    </p>
-                    <p className="mt-4 flex-1 text-[0.8125rem] leading-relaxed text-white/65">
-                      {p.tagline}
-                    </p>
-                    <div className="mt-5 flex items-end justify-between border-t border-white/10 pt-4">
-                      <div>
-                        <p className="text-[0.625rem] font-bold uppercase tracking-wider text-white/35">
-                          {p.configurationsLabel}
-                        </p>
-                        <p className="mt-0.5 font-display text-[1.0625rem] font-bold text-white">
-                          {priceRange(p.priceMin, p.priceMax)}
-                        </p>
-                      </div>
-                      <ArrowUpRight
-                        className="h-5 w-5 text-brand-400 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-                        strokeWidth={2.4}
-                      />
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </MobileCarousel>
-          </div>
-        </section>
-      )}
 
-      {/* ================= SERVICES ================= */}
-      <section className="shell py-16 lg:py-24">
-        <SectionHeading
-          eyebrow="What we do"
-          title="Advisory, diligence and execution under one roof"
-          description="Eight service lines that cover the full life of a real estate decision — from the first shortlist through leasing the asset years later."
-          action={{ label: "All services", href: "/services" }}
-        />
-        <MobileCarousel
-          grid="sm:grid-cols-2 lg:grid-cols-4"
-          peek="md"
-          gap="gap-4 sm:gap-px"
-          className="mt-10 sm:bg-ink-200"
-        >
-          {SERVICES.map((s) => (
-            <Link
-              key={s.slug}
-              href={`/services/${s.slug}`}
-              className="group flex flex-col rounded-md border border-ink-200 bg-white p-6 transition-colors hover:bg-brand-50/60 sm:rounded-none sm:border-0"
-            >
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm bg-ink-950 text-brand-400 transition-colors group-hover:bg-brand-600 group-hover:text-white">
-                {SERVICE_ICONS[s.slug]}
-              </span>
-              <h3 className="mt-4 font-display text-[0.9375rem] font-bold leading-snug">
-                {s.title}
-              </h3>
-              <p className="mt-2 flex-1 text-[0.8125rem] leading-relaxed text-ink-600">
-                {s.summary}
-              </p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-[0.75rem] font-bold text-brand-700">
-                Learn more
-                <ArrowRight
-                  className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
-                  strokeWidth={2.4}
-                />
-              </span>
-            </Link>
-          ))}
-        </MobileCarousel>
-      </section>
-
-      {/* ============ JOURNEY — search to site visit (blueprint S7) ======= */}
-      <section className="border-y border-ink-200 bg-ink-50/50 py-16 lg:py-24">
-        <div className="shell">
-          <SectionHeading
-            align="center"
-            eyebrow="How it works"
-            title="A Clearer Journey From Search to Site Visit"
-            description="Five simple stages — so you always know where you are and what happens next."
-          />
-          <MobileCarousel
-            as="ol"
-            grid="sm:grid-cols-2 lg:grid-cols-5"
-            peek="md"
-            gap="gap-4 sm:gap-px"
-            className="mt-12 sm:bg-ink-200"
-          >
-            {[
-              {
-                step: "01",
-                title: "Discover",
-                body: "Browse projects and locations that match your initial requirements.",
-              },
-              {
-                step: "02",
-                title: "Shortlist",
-                body: "Share your budget, intended use, preferred location and timeline.",
-              },
-              {
-                step: "03",
-                title: "Compare",
-                body: "Review available project information and clarify unanswered questions.",
-              },
-              {
-                step: "04",
-                title: "Visit",
-                body: "Arrange a site visit for shortlisted options, where available.",
-              },
-              {
-                step: "05",
-                title: "Decide",
-                body: "Confirm all commercial, legal, regulatory and contractual details with the relevant qualified professionals before proceeding.",
-              },
-            ].map((s) => (
-              <li
-                key={s.step}
-                className="relative rounded-md border border-ink-200 bg-white p-7 sm:rounded-none sm:border-0"
-              >
-                <span className="font-display text-[2.5rem] font-extrabold leading-none text-ink-100">
-                  {s.step}
-                </span>
-                <h3 className="mt-3 font-display text-[1rem] font-bold">
-                  {s.title}
-                </h3>
-                <p className="mt-2 text-[0.8125rem] leading-relaxed text-ink-600">
-                  {s.body}
-                </p>
-              </li>
-            ))}
-          </MobileCarousel>
-          <p className="mx-auto mt-10 max-w-2xl text-center text-[0.875rem] leading-relaxed text-ink-600">
-            Our role is to help you navigate property options and coordinate the
-            next steps within the scope of services we actually provide.
-          </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Link href="/projects" className="btn btn-dark">
-              Start your search
-              <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
-            </Link>
-            <Link href="/contact" className="btn btn-outline">
-              Speak with an advisor
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= COMMERCIAL BAND ================= */}
-      <section className="relative isolate overflow-hidden bg-ink-950 py-16 lg:py-24">
-        <Image
-          src="/brand/cta-commercial.jpg"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover opacity-25"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/90 to-ink-950/60"
-        />
-        <div className="shell relative grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div>
-            <SectionHeading
-              tone="dark"
-              eyebrow="Commercial & investment"
-              title="Gurugram's commercial market rewards the prepared buyer"
-              description="Retail, office and SCO assets can deliver 7-9% gross yields in the right catchment — and close to nothing in the wrong one. We model the difference before you commit."
-            />
-            <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-              {[
-                {
-                  k: "Yield modelling",
-                  v: "Gross and net yield, exit cap and IRR across a 5-10 year hold.",
-                },
-                {
-                  k: "Catchment study",
-                  v: "Footfall drivers, anchor tenants and competing supply within 3 km.",
-                },
-                {
-                  k: "SCO versus strata",
-                  v: "Freehold land and build-out control compared against strata retail.",
-                },
-                {
-                  k: "Tenant sourcing",
-                  v: "Lease structuring, escalation terms and tenant introductions.",
-                },
-              ].map((i) => (
-                <li
-                  key={i.k}
-                  className="border-l-2 border-brand-500/60 pl-4"
-                >
-                  <p className="text-[0.8125rem] font-bold text-white">{i.k}</p>
-                  <p className="mt-1 text-[0.8125rem] leading-relaxed text-white/60">
-                    {i.v}
-                  </p>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/commercial" className="btn btn-primary">
-                View commercial projects
-                <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
-              </Link>
-              <Link href="/tools/emi-calculator" className="btn btn-ghost-light">
-                <Calculator className="h-4 w-4" strokeWidth={2.2} />
-                EMI calculator
-              </Link>
-            </div>
-          </div>
-
-          <EnquiryForm
-            variant="dark"
-            source="home-commercial"
-            heading="Talk to a commercial advisor"
-            subheading="Tell us the ticket size and we'll send a yield comparison across the assets that fit."
-            showBudget
-            showRequirement
-          />
-        </div>
-      </section>
 
       {/* ================= TESTIMONIALS ================= */}
       <section className="bg-ink-900 py-16 lg:py-24">

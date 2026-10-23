@@ -17,7 +17,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { ProjectGallery } from "@/components/project/ProjectGallery";
-import { ProjectVideo } from "@/components/project/ProjectVideo";
+import { ProjectWalkthrough } from "@/components/project/ProjectVideo";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
@@ -95,6 +95,19 @@ export default async function ProjectPage({
   const similar = await getSimilarProjects(project, 3);
   const developer = DEVELOPER_BY_NAME.get(project.developer);
   const locality = LOCALITY_BY_NAME.get(project.locality);
+
+  // Insert a "Plans" tab after "Price & Area" when the project has plan images.
+  const navSections: { id: string; label: string }[] = SECTIONS.map((x) => ({
+    id: x.id,
+    label: x.label,
+  }));
+  if (project.plans?.length) {
+    const idx = navSections.findIndex((x) => x.id === "amenities");
+    navSections.splice(idx < 0 ? navSections.length : idx, 0, {
+      id: "plans",
+      label: "Plans",
+    });
+  }
 
   const facts = [
     {
@@ -240,6 +253,12 @@ export default async function ProjectPage({
                   {project.developer}
                 </Link>
               </div>
+
+              {project.videoUrl && (
+                <div className="mt-5">
+                  <ProjectWalkthrough url={project.videoUrl} title={project.name} />
+                </div>
+              )}
             </div>
 
             <div className="shrink-0 rounded-md border border-white/15 bg-white/[0.06] p-5 lg:min-w-[17rem]">
@@ -277,7 +296,7 @@ export default async function ProjectPage({
         className="sticky top-16 z-30 border-b border-ink-200 bg-white/95 backdrop-blur lg:top-28"
       >
         <div className="shell flex gap-1 overflow-x-auto no-scrollbar">
-          {SECTIONS.map((s) => (
+          {navSections.map((s) => (
             <a
               key={s.id}
               href={`#${s.id}`}
@@ -315,16 +334,6 @@ export default async function ProjectPage({
                 </div>
               ))}
             </dl>
-
-            {/* walkthrough video — rendered just before the overview */}
-            {project.videoUrl && (
-              <section className="mt-10">
-                <SectionTitle eyebrow="Video" title="Project walkthrough" />
-                <div className="mt-5">
-                  <ProjectVideo url={project.videoUrl} title={project.name} />
-                </div>
-              </section>
-            )}
 
             {/* overview */}
             <section id="overview" className="mt-12 scroll-mt-[11rem]">
@@ -458,6 +467,57 @@ export default async function ProjectPage({
                 </div>
               )}
             </section>
+
+            {/* plans */}
+            {project.plans && project.plans.length > 0 && (
+              <section id="plans" className="mt-12 scroll-mt-[11rem]">
+                <SectionTitle
+                  eyebrow="Plans"
+                  title={`${project.name} floor & master plans`}
+                  note="Tap a plan to view it full size. Plans are indicative and subject to change — confirm the latest set with us."
+                />
+                <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {project.plans.map((pl, i) => (
+                    <a
+                      key={i}
+                      href={pl.image}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group overflow-hidden rounded-md border border-ink-200 bg-white transition-colors hover:border-brand-300"
+                    >
+                      <div className="relative aspect-[4/3] overflow-hidden bg-ink-50">
+                        {/* eslint-disable-next-line @next/next/no-img-element -- plan images are arbitrary hosted URLs; the optimizer would need each host whitelisted */}
+                        <img
+                          src={pl.image}
+                          alt={`${pl.type}${pl.title ? ` — ${pl.title}` : ""}`}
+                          loading="lazy"
+                          className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <span className="badge absolute left-3 top-3 bg-ink-950 text-white">
+                          {pl.type}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between gap-3 px-4 py-3">
+                        <div className="min-w-0">
+                          {pl.title && (
+                            <p className="truncate text-[0.875rem] font-bold text-ink-900">
+                              {pl.title}
+                            </p>
+                          )}
+                          {pl.size && (
+                            <p className="text-[0.75rem] text-ink-500">{pl.size}</p>
+                          )}
+                        </div>
+                        <span className="inline-flex shrink-0 items-center gap-1 text-[0.75rem] font-bold text-brand-700">
+                          View
+                          <ArrowRight className="h-3 w-3" strokeWidth={2.6} />
+                        </span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* amenities */}
             {project.amenities.length > 0 && (

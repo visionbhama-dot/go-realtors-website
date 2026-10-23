@@ -12,6 +12,18 @@ export type Configuration = {
   price: string;
 };
 
+/** A floor plan / master plan / layout image with its type and size label. */
+export type ProjectPlan = {
+  /** e.g. "Floor Plan", "Master Plan", "Unit Plan", "Location Plan" */
+  type: string;
+  /** e.g. "3 BHK + Study", "Tower cluster" */
+  title: string;
+  /** image URL */
+  image: string;
+  /** e.g. "1,947 sq.ft." or "12 acres" */
+  size: string;
+};
+
 export type Faq = { question: string; answer: string };
 
 export type Project = {
@@ -40,6 +52,7 @@ export type Project = {
   highlights: string[];
   amenities: string[];
   configurations: Configuration[];
+  plans?: ProjectPlan[];
   floorPlanNote: string | null;
   videoUrl: string | null;
   whyInvest: string[];

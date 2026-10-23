@@ -111,6 +111,21 @@ export async function saveProject(formData: FormData): Promise<Result> {
       };
     })();
 
+    // Plans (floor plan / master plan / unit plan …) — positional arrays from
+    // the admin form, kept only where an image URL is present.
+    const planImages = formData.getAll("plan_image").map((v) => str(v));
+    const planTypes = formData.getAll("plan_type");
+    const planTitles = formData.getAll("plan_title");
+    const planSizes = formData.getAll("plan_size");
+    const plans = planImages
+      .map((image, i) => ({
+        type: str(planTypes[i] ?? null) || "Floor Plan",
+        title: str(planTitles[i] ?? null),
+        size: str(planSizes[i] ?? null),
+        image,
+      }))
+      .filter((p) => p.image);
+
     const payload = {
       slug,
       legacy_slug: nullable(formData.get("legacy_slug")),
@@ -137,6 +152,7 @@ export async function saveProject(formData: FormData): Promise<Result> {
       why_invest: lines(formData.get("why_invest")),
       location_advantages: lines(formData.get("location_advantages")),
       floor_plan_note: nullable(formData.get("floor_plan_note")),
+      plans,
       images: gallery.urls,
       image_alts: gallery.alts,
       brochure_url: nullable(formData.get("brochure_url")),
