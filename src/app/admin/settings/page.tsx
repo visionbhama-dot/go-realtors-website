@@ -26,12 +26,19 @@ const GROUPS: { group: string; title: string; description: string; fields: Setti
       "The headline, search prompt and section titles on the public homepage. Leave a field blank to use the built-in default.",
     fields: [
       {
-        name: "hero_headline",
-        label: "Hero headline",
+        name: "hero_prefix",
+        label: "Hero headline (first line)",
+        hint: "Static first line, kept on one line on mobile — keep it short.",
+        fallback: "Discover properties in",
+      },
+      {
+        name: "hero_words",
+        label: "Hero rotating words",
         type: "textarea",
-        rows: 2,
-        hint: "The main headline over the hero video.",
-        fallback: "The Right Property Starts With the Right Advice.",
+        rows: 6,
+        hint: "One phrase per line. These type out one after another under the headline (e.g. Gurugram, New Delhi).",
+        fallback:
+          "Gurugram\nNew Delhi\nDwarka Expressway\nGolf Course Road\nNoida\npopular localities",
       },
       {
         name: "hero_subheading",

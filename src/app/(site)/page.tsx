@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { HeroSearch } from "@/components/home/HeroSearch";
 import { HeroVimeo } from "@/components/home/HeroVimeo";
+import { RotatingText } from "@/components/home/RotatingText";
 import { PropertyShowcase } from "@/components/home/PropertyShowcase";
 import {
   CuratedCollections,
@@ -148,16 +149,18 @@ export default async function HomePage() {
     },
   ];
 
-  // Hero headline / sub-heading — animated word-by-word reveal (360realtors-style).
-  const heroHeadline = copy(
-    "hero_headline",
-    "The Right Property Starts With the Right Advice.",
-  );
+  // Hero: static prefix + animated (typewriter) city/area name, 360realtors-style.
   const heroSub = copy(
     "hero_subheading",
     "Explore property opportunities across Gurugram with clear information, thoughtful comparisons, and guidance tailored to your requirements.",
   );
-  const heroWords = heroHeadline.split(/\s+/).filter(Boolean);
+  const heroWords = copy(
+    "hero_words",
+    "Gurugram\nNew Delhi\nDwarka Expressway\nGolf Course Road\nNoida\npopular localities",
+  )
+    .split("\n")
+    .map((w) => w.trim())
+    .filter(Boolean);
 
   return (
     <>
@@ -175,28 +178,13 @@ export default async function HomePage() {
         />
 
         <div className="shell relative z-10 py-16 text-center sm:py-20 lg:py-24">
-          <h1 className="mx-auto max-w-4xl font-display text-[1.9rem] font-extrabold leading-[1.15] text-white sm:text-[3rem] sm:leading-[1.08] lg:text-[3.5rem]">
-            {heroWords.map((word, i) => (
-              <span
-                key={`${word}-${i}`}
-                className="inline-block"
-                style={{
-                  animation: "reveal 0.6s cubic-bezier(0.22,1,0.36,1) both",
-                  animationDelay: `${0.12 + i * 0.08}s`,
-                }}
-              >
-                {word}
-                {i < heroWords.length - 1 ? "\u00a0" : ""}
-              </span>
-            ))}
+          <h1 className="mx-auto flex max-w-4xl flex-col items-center font-display text-[1.6rem] font-extrabold leading-[1.15] text-white sm:text-[3rem] sm:leading-[1.1] lg:text-[3.5rem]">
+            <span className="whitespace-nowrap">
+              {copy("hero_prefix", "Discover properties in")}
+            </span>
+            <RotatingText className="text-brand-400" words={heroWords} />
           </h1>
-          <p
-            className="mx-auto mt-5 max-w-xl text-[0.9375rem] leading-relaxed text-white/75 sm:text-[1.0625rem]"
-            style={{
-              animation: "reveal 0.7s ease both",
-              animationDelay: `${0.12 + heroWords.length * 0.08 + 0.1}s`,
-            }}
-          >
+          <p className="mx-auto mt-5 max-w-xl text-[0.9375rem] leading-relaxed text-white/75 sm:text-[1.0625rem]">
             {heroSub}
           </p>
 
