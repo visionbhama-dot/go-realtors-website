@@ -52,6 +52,16 @@ function mapProject(r: Row): Project {
     locationAdvantages: arr(r.location_advantages),
     floorPlanNote: (r.floor_plan_note as string) ?? null,
     videoUrl: (r.video_url as string) ?? null,
+    plans: Array.isArray(r.plans)
+      ? (r.plans as Row[])
+          .map((p) => ({
+            type: String(p.type ?? "Floor Plan"),
+            title: String(p.title ?? ""),
+            image: String(p.image ?? ""),
+            size: String(p.size ?? ""),
+          }))
+          .filter((p) => p.image)
+      : [],
     images: arr(r.images),
     imageAlts: arr(r.image_alts),
     configurations: cfgs

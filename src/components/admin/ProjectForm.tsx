@@ -50,6 +50,7 @@ export type ProjectFormValues = {
   og_image: string;
   noindex: boolean;
   configurations: { unit_type: string; area_sqft: string; carpet_sqft: string; price: string }[];
+  plans: { type: string; title: string; size: string; image: string }[];
   faqs: { question: string; answer: string }[];
 };
 
@@ -93,6 +94,7 @@ export const EMPTY_PROJECT: ProjectFormValues = {
   og_image: "",
   noindex: false,
   configurations: [],
+  plans: [],
   faqs: [],
 };
 
@@ -128,6 +130,7 @@ export function ProjectForm({
   const [faqs, setFaqs] = useState(
     initial.faqs.length ? initial.faqs : [{ question: "", answer: "" }],
   );
+  const [plans, setPlans] = useState(initial.plans ?? []);
 
   const isNew = !initial.id;
 
@@ -557,6 +560,93 @@ export function ProjectForm({
             >
               <input name="map_embed_url" defaultValue={initial.map_embed_url} className="field" />
             </Field>
+          </div>
+        </Panel>
+
+        <Panel
+          title="Plans"
+          description="Floor plans, master plan, unit plans and layout images — shown in the Plans section of the project page. Paste an image URL (upload under Media first, or use any hosted image)."
+          actions={
+            <button
+              type="button"
+              onClick={() =>
+                setPlans((p) => [
+                  ...p,
+                  { type: "Floor Plan", title: "", size: "", image: "" },
+                ])
+              }
+              className="btn btn-outline btn-sm"
+            >
+              <Plus className="h-3.5 w-3.5" strokeWidth={2.4} />
+              Add plan
+            </button>
+          }
+        >
+          <div className="space-y-3">
+            {plans.map((p, i) => (
+              <div
+                key={i}
+                className="grid gap-3 rounded-sm border border-ink-200 p-3 sm:grid-cols-[1fr_1.2fr_1fr_1.6fr_auto]"
+              >
+                <Field label="Type">
+                  <select name="plan_type" defaultValue={p.type} className="field">
+                    {[
+                      "Floor Plan",
+                      "Master Plan",
+                      "Unit Plan",
+                      "Location Plan",
+                      "Site Plan",
+                    ].map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+                <Field label="Title / label">
+                  <input
+                    name="plan_title"
+                    defaultValue={p.title}
+                    className="field"
+                    placeholder="3 BHK + Study"
+                  />
+                </Field>
+                <Field label="Size">
+                  <input
+                    name="plan_size"
+                    defaultValue={p.size}
+                    className="field"
+                    placeholder="1,947 sq.ft."
+                  />
+                </Field>
+                <Field label="Image URL">
+                  <input
+                    name="plan_image"
+                    defaultValue={p.image}
+                    className="field"
+                    placeholder="https://…/floor-plan.jpg"
+                  />
+                </Field>
+                <div className="flex items-end">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setPlans((rows) => rows.filter((_, idx) => idx !== i))
+                    }
+                    aria-label={`Remove plan ${i + 1}`}
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-ink-200 text-ink-500 hover:border-red-300 hover:bg-red-50 hover:text-red-600"
+                  >
+                    <Trash2 className="h-4 w-4" strokeWidth={2.2} />
+                  </button>
+                </div>
+              </div>
+            ))}
+            {plans.length === 0 && (
+              <p className="py-3 text-[0.8125rem] text-ink-500">
+                No plans added yet. Use “Add plan” to attach floor plans, a
+                master plan or layout images with their type and size.
+              </p>
+            )}
           </div>
         </Panel>
       </div>
